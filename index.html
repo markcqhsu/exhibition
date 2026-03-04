@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0f14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Exhibition Hub | 展覽資訊中心</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── Light mode (default) ── */
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface2: #f0f0ed;
+    --border: rgba(0,0,0,0.08);
+    --accent: #c9862a;
+    --accent2: #3b6fd4;
+    --text: #1a1a1a;
+    --text-muted: #888888;
+    --upcoming: #16a34a;
+    --past: #999999;
+    --active: #dc2626;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-hover: 0 12px 32px rgba(0,0,0,0.12);
+    --header-bg: rgba(247,247,245,0.88);
+    --modal-backdrop-bg: rgba(0,0,0,0.35);
+    --stat-num-color: #1a1a1a;
+  }
+
+  /* ── Dark mode ── */
+  :root.dark {
+    --bg: #0d0f14;
+    --surface: #151820;
+    --surface2: #1c2030;
+    --border: rgba(255,255,255,0.07);
+    --accent: #e8b86d;
+    --accent2: #5b8dee;
+    --text: #e8eaf0;
+    --text-muted: #6b7280;
+    --upcoming: #34d399;
+    --past: #6b7280;
+    --active: #f87171;
+    --shadow: 0 2px 12px rgba(0,0,0,0.4);
+    --shadow-hover: 0 20px 40px rgba(0,0,0,0.5);
+    --header-bg: rgba(13,15,20,0.75);
+    --modal-backdrop-bg: rgba(0,0,0,0.75);
+    --stat-num-color: var(--accent);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { transition: background 0.3s ease, color 0.3s ease; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(91,141,238,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(201,134,42,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s;
+  }
+
+  :root.dark body::before {
+    background:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(91,141,238,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(232,184,109,0.10) 0%, transparent 60%);
+  }
+
+  /* HEADER */
+  header {
+    z-index: 10;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: var(--header-bg);
+    position: sticky;
+    top: 0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* HEADER RIGHT */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* THEME TOGGLE */
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    transform: rotate(15deg);
+  }
+
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle .icon-moon { display: block; }
+  :root.dark .theme-toggle .icon-sun { display: block; }
+  :root.dark .theme-toggle .icon-moon { display: none; }
+  .lang-switcher {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: #0d0f14;
+    font-weight: 500;
+  }
+
+  /* MAIN */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .page-title span {
+    color: var(--accent);
+  }
+
+  .page-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-bottom: 48px;
+    letter-spacing: 0.02em;
+  }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d0f14;
+    font-weight: 500;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,134,42,0.25);
+    box-shadow: var(--shadow-hover);
+  }
+
+  :root.dark .card:hover {
+    border-color: rgba(232,184,109,0.3);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.10s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+
+  .card-header {
+    padding: 20px 22px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-flag {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .card-status {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  .status-upcoming {
+    background: rgba(52,211,153,0.1);
+    color: var(--upcoming);
+    border: 1px solid rgba(52,211,153,0.25);
+  }
+
+  .status-past {
+    background: rgba(107,114,128,0.1);
+    color: var(--past);
+    border: 1px solid rgba(107,114,128,0.2);
+  }
+
+  .status-active {
+    background: rgba(248,113,113,0.1);
+    color: var(--active);
+    border: 1px solid rgba(248,113,113,0.25);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .card-body {
+    padding: 20px 22px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .card-location {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .card-team {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .card-footer {
+    padding: 12px 22px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.15);
+  }
+
+  .card-type {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .card-arrow {
+    font-size: 16px;
+    color: var(--accent);
+    transition: transform 0.2s;
+  }
+
+  .card:hover .card-arrow {
+    transform: translateX(4px);
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--modal-backdrop-bg);
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-backdrop.open {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 660px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .modal-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .modal-close:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .modal-flag {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .modal-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .modal-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .modal-body {
+    padding: 28px 32px;
+  }
+
+  .info-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .info-box {
+    flex: 1;
+    min-width: 140px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .info-box-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .info-box-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .section-title {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+
+  .description-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #9ca3af;
+  }
+
+  .tag-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .attendee-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .attendee-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .attendee-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #0d0f14;
+  }
+
+  .attendee-info {}
+  .attendee-name { font-size: 14px; font-weight: 500; }
+  .attendee-role { font-size: 12px; color: var(--text-muted); }
+
+  .modal-actions {
+    padding: 20px 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0d0f14;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 48px;
+    padding: 20px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--stat-num-color);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Touch targets: always min 44px ── */
+  .filter-btn, .lang-btn, .btn-primary, .btn-secondary, .modal-close {
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .card { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+  /* ── Bottom sheet modal handle ── */
+  .sheet-handle {
+    display: none;
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 999px;
+    margin: 10px auto 0;
+  }
+
+  /* ── Tablet (768px) ── */
+  @media (max-width: 768px) {
+    main { padding: 40px 24px; }
+    .card-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .stats-bar { gap: 20px; padding: 16px 20px; }
+    .stat-num { font-size: 20px; }
+    .modal { max-height: 85vh; }
+    .modal-header, .modal-body, .modal-actions { padding-left: 24px; padding-right: 24px; }
+  }
+
+  /* ── Mobile (480px) ── */
+  @media (max-width: 480px) {
+    /* Header */
+    header {
+      padding: 12px 16px;
+      padding-top: max(12px, env(safe-area-inset-top));
+      flex-wrap: nowrap;
+      gap: 8px;
+    }
+    .logo-text { font-size: 16px; }
+    .logo-sub { display: none; }
+    .logo-icon { width: 30px; height: 30px; font-size: 13px; }
+    .lang-btn { padding: 0 8px; font-size: 11px; }
+    .theme-toggle { width: 36px; height: 36px; font-size: 15px; }
+
+    /* Main content */
+    main { padding: 24px 16px; padding-bottom: max(32px, env(safe-area-inset-bottom)); }
+    .page-title { font-size: 26px; margin-bottom: 6px; }
+    .page-desc { font-size: 13px; margin-bottom: 28px; }
+
+    /* Stats */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 14px;
+      margin-bottom: 28px;
+    }
+    .stat-num { font-size: 22px; }
+    .stat-label { font-size: 11px; }
+
+    /* Filters — horizontal scroll on mobile */
+    .filters {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 8px;
+      margin-bottom: 28px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn { flex-shrink: 0; font-size: 13px; padding: 0 16px; }
+
+    /* Cards */
+    .card-grid { grid-template-columns: 1fr; gap: 12px; }
+    .card-header { padding: 16px 16px 12px; }
+    .card-body { padding: 14px 16px; }
+    .card-footer { padding: 12px 16px; }
+    .card-title { font-size: 16px; }
+    .card-flag { font-size: 24px; }
+    .card-date { font-size: 14px; }
+
+    /* Bottom sheet modal */
+    .modal-backdrop {
+      padding: 0;
+      align-items: flex-end;
+    }
+    .modal {
+      border-radius: 20px 20px 0 0;
+      max-height: 90vh;
+      width: 100%;
+      animation: sheetUp 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    @keyframes sheetUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-handle { display: block; }
+    .modal-close { display: none; } /* replaced by swipe-down */
+
+    .modal-header {
+      padding: 16px 20px;
+      padding-top: 8px;
+    }
+    .modal-flag { font-size: 30px; margin-bottom: 6px; }
+    .modal-title { font-size: 17px; }
+    .modal-meta { font-size: 12px; gap: 10px; }
+    .modal-body { padding: 16px 20px; }
+    .section-title { margin-top: 16px; }
+    .info-row { gap: 8px; margin-bottom: 16px; }
+    .info-box { min-width: calc(50% - 4px); padding: 10px 12px; }
+    .info-box-value { font-size: 14px; }
+    .description-text { font-size: 13px; }
+
+    /* Actions pinned at bottom */
+    .modal-actions {
+      padding: 12px 20px 16px;
+      flex-direction: row;
+      gap: 8px;
+    }
+    .btn-primary, .btn-secondary {
+      flex: 1;
+      text-align: center;
+      padding: 13px 8px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+  }
+
+  /* ── Wide screen (1400px+) ── */
+  @media (min-width: 1400px) {
+    main { max-width: 1400px; }
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">✦</div>
+    <div>
+      <div class="logo-text">Exhibition Hub</div>
+      <div class="logo-sub" id="header-sub">展覽資訊中心</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('vi')">Tiếng Việt</button>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="切換深色模式">
+      <span class="icon-moon">🌙</span>
+      <span class="icon-sun">☀️</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="page-title" id="page-title">國際<span>展覽</span>資訊</div>
+  <div class="page-desc" id="page-desc">出差參展・看展記錄 — 分享給全體同仁</div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label" id="stat1-label">即將到來</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label" id="stat2-label">進行中</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label" id="stat3-label">已結束</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label" id="stat4-label">2025 全年計畫</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" id="filter-all" onclick="setFilter('all')">全部</button>
+    <button class="filter-btn" id="filter-upcoming" onclick="setFilter('upcoming')">即將到來</button>
+    <button class="filter-btn" id="filter-past" onclick="setFilter('past')">已結束</button>
+    <button class="filter-btn" id="filter-attend" onclick="setFilter('attend')">參展</button>
+    <button class="filter-btn" id="filter-visit" onclick="setFilter('visit')">看展</button>
+  </div>
+
+  <div class="section-label" id="section-upcoming-label">即將到來</div>
+
+  <div class="card-grid" id="card-grid">
+    <!-- Cards inserted by JS -->
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <div class="sheet-handle"></div>
+    <div class="modal-header">
+      <div>
+        <div class="modal-flag" id="modal-flag">🇵🇦</div>
+        <div class="modal-title" id="modal-title">展覽名稱</div>
+        <div class="modal-meta">
+          <span id="modal-date">📅 日期</span>
+          <span id="modal-loc">📍 地點</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('modal-backdrop').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-row" id="modal-info-row"></div>
+      <div class="section-title" id="modal-desc-label">展覽簡介</div>
+      <div class="description-text" id="modal-desc"></div>
+      <div class="section-title" id="modal-tags-label">產品重點</div>
+      <div class="tag-list" id="modal-tags"></div>
+      <div class="section-title" id="modal-team-label">出差人員</div>
+      <div class="attendee-list" id="modal-team"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" id="modal-map-btn">🗺 地圖導航</button>
+      <button class="btn-secondary" id="modal-web-btn">🌐 官方網站</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const i18n = {
+  zh: {
+    headerSub: '展覽資訊中心',
+    pageTitle: '國際<span style="color:var(--accent)">展覽</span>資訊',
+    pageDesc: '出差參展・看展記錄 — 分享給全體同仁',
+    stat1: '即將到來', stat2: '進行中', stat3: '已結束', stat4: '2025 全年計畫',
+    filterAll: '全部', filterUpcoming: '即將到來', filterPast: '已結束',
+    filterAttend: '參展', filterVisit: '看展',
+    sectionUpcoming: '即將到來',
+    statusUpcoming: '即將到來', statusActive: '進行中', statusPast: '已結束',
+    typeAttend: '參展', typeVisit: '看展',
+    descLabel: '展覽簡介', tagsLabel: '產品重點', teamLabel: '出差人員',
+    mapBtn: '🗺 地圖導航', webBtn: '🌐 官方網站',
+    boxDate: '展期', boxVenue: '展館', boxType: '性質', boxBooth: '攤位',
+  },
+  en: {
+    headerSub: 'Exhibition Hub',
+    pageTitle: 'Global <span style="color:var(--accent)">Exhibition</span> Info',
+    pageDesc: 'Business trip & trade show records — shared with all team members',
+    stat1: 'Upcoming', stat2: 'Active', stat3: 'Past', stat4: '2025 Full Year',
+    filterAll: 'All', filterUpcoming: 'Upcoming', filterPast: 'Past',
+    filterAttend: 'Exhibiting', filterVisit: 'Visiting',
+    sectionUpcoming: 'Upcoming',
+    statusUpcoming: 'Upcoming', statusActive: 'Active', statusPast: 'Past',
+    typeAttend: 'Exhibiting', typeVisit: 'Visiting',
+    descLabel: 'About this show', tagsLabel: 'Product Focus', teamLabel: 'Team Members',
+    mapBtn: '🗺 Get Directions', webBtn: '🌐 Official Website',
+    boxDate: 'Dates', boxVenue: 'Venue', boxType: 'Type', boxBooth: 'Booth No.',
+  },
+  vi: {
+    headerSub: 'Trung Tâm Triển Lãm',
+    pageTitle: 'Thông Tin <span style="color:var(--accent)">Triển Lãm</span> Quốc Tế',
+    pageDesc: 'Ghi chép tham gia triển lãm — chia sẻ cho toàn thể nhân viên',
+    stat1: 'Sắp tới', stat2: 'Đang diễn ra', stat3: 'Đã kết thúc', stat4: 'Kế hoạch 2025',
+    filterAll: 'Tất cả', filterUpcoming: 'Sắp tới', filterPast: 'Đã kết thúc',
+    filterAttend: 'Triển lãm', filterVisit: 'Tham quan',
+    sectionUpcoming: 'Sắp tới',
+    statusUpcoming: 'Sắp tới', statusActive: 'Đang diễn ra', statusPast: 'Đã kết thúc',
+    typeAttend: 'Triển lãm', typeVisit: 'Tham quan',
+    descLabel: 'Giới thiệu triển lãm', tagsLabel: 'Trọng tâm sản phẩm', teamLabel: 'Thành viên tham gia',
+    mapBtn: '🗺 Chỉ đường', webBtn: '🌐 Website chính thức',
+    boxDate: 'Thời gian', boxVenue: 'Địa điểm', boxType: 'Loại', boxBooth: 'Số gian hàng',
+  }
+};
+
+const exhibitions = [
+  {
+    id: 1,
+    flag: '🇵🇦',
+    title: { zh: 'EXPOCOMER 巴拿馬國際貿易博覽會', en: 'EXPOCOMER Panama International Trade Fair', vi: 'Hội chợ Thương mại Quốc tế Panama EXPOCOMER' },
+    location: { zh: '巴拿馬城・巴拿馬', en: 'Panama City, Panama', vi: 'Panama City, Panama' },
+    dates: '2025 Mar 10 – 12',
+    status: 'upcoming',
+    type: 'visit',
+    venue: { zh: 'ATLAPA Convention Center', en: 'ATLAPA Convention Center', vi: 'ATLAPA Convention Center' },
+    booth: { zh: '—', en: '—', vi: '—' },
+    desc: {
+      zh: 'EXPOCOMER 是中美洲最重要的國際貿易博覽會之一，每年吸引數十個國家的參展商與買家，涵蓋食品飲料、包裝材料、工業設備等多元產品類別。此次看展主要目的為瞭解飲料包裝市場最新趨勢，並蒐集競品資訊。',
+      en: 'EXPOCOMER is one of the most important international trade fairs in Central America, attracting exhibitors and buyers from dozens of countries, covering food & beverage, packaging, industrial equipment and more. The main purpose of this visit is to track the latest trends in beverage packaging and gather competitive intelligence.',
+      vi: 'EXPOCOMER là một trong những hội chợ thương mại quốc tế quan trọng nhất Trung Mỹ, thu hút hàng chục quốc gia tham gia với các sản phẩm thực phẩm, đồ uống, bao bì và thiết bị công nghiệp. Mục đích chính của chuyến tham quan là tìm hiểu xu hướng bao bì đồ uống mới nhất.',
+    },
+    tags: ['飲料包裝', 'PET瓶', '製造設備', '市場調查'],
+    team: [
+      { name: 'Mark', role: { zh: '業務拓展', en: 'Business Development', vi: 'Phát triển kinh doanh' } }
+    ],
+    mapUrl: 'https://maps.google.com/?q=ATLAPA+Convention+Center+Panama',
+    webUrl: 'https://expocomer.com',
+  }
+];
+
+let currentLang = 'zh';
+let currentFilter = 'all';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['zh','en','vi'][i] === lang);
+  });
+  applyLang();
+  renderCards();
+}
+
+function applyLang() {
+  const t = i18n[currentLang];
+  document.getElementById('header-sub').textContent = t.headerSub;
+  document.getElementById('page-title').innerHTML = t.pageTitle;
+  document.getElementById('page-desc').textContent = t.pageDesc;
+  document.getElementById('stat1-label').textContent = t.stat1;
+  document.getElementById('stat2-label').textContent = t.stat2;
+  document.getElementById('stat3-label').textContent = t.stat3;
+  document.getElementById('stat4-label').textContent = t.stat4;
+  document.getElementById('filter-all').textContent = t.filterAll;
+  document.getElementById('filter-upcoming').textContent = t.filterUpcoming;
+  document.getElementById('filter-past').textContent = t.filterPast;
+  document.getElementById('filter-attend').textContent = t.filterAttend;
+  document.getElementById('filter-visit').textContent = t.filterVisit;
+  document.getElementById('section-upcoming-label').textContent = t.sectionUpcoming;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-' + f).classList.add('active');
+  renderCards();
+}
+
+function renderCards() {
+  const t = i18n[currentLang];
+  const grid = document.getElementById('card-grid');
+  let list = exhibitions;
+  if (currentFilter === 'upcoming') list = list.filter(e => e.status === 'upcoming');
+  if (currentFilter === 'past') list = list.filter(e => e.status === 'past');
+  if (currentFilter === 'attend') list = list.filter(e => e.type === 'attend');
+  if (currentFilter === 'visit') list = list.filter(e => e.type === 'visit');
+
+  grid.innerHTML = list.map(ex => {
+    const statusClass = ex.status === 'upcoming' ? 'status-upcoming' : ex.status === 'active' ? 'status-active' : 'status-past';
+    const statusText = ex.status === 'upcoming' ? t.statusUpcoming : ex.status === 'active' ? t.statusActive : t.statusPast;
+    const typeText = ex.type === 'attend' ? t.typeAttend : t.typeVisit;
+    return `
+    <div class="card" onclick="openModal(${ex.id})">
+      <div class="card-header">
+        <div class="card-flag">${ex.flag}</div>
+        <div class="card-status ${statusClass}">${statusText}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${ex.title[currentLang]}</div>
+        <div class="card-location">📍 ${ex.location[currentLang]}</div>
+        <div class="card-date">📅 ${ex.dates}</div>
+        <div class="card-team">
+          ${ex.team.map(m => `<div class="avatar" title="${m.name}">${m.name.slice(0,2).toUpperCase()}</div>`).join('')}
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-type">${typeText}</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id) {
+  const ex = exhibitions.find(e => e.id === id);
+  const t = i18n[currentLang];
+  document.getElementById('modal-flag').textContent = ex.flag;
+  document.getElementById('modal-title').textContent = ex.title[currentLang];
+  document.getElementById('modal-date').textContent = '📅 ' + ex.dates;
+  document.getElementById('modal-loc').textContent = '📍 ' + ex.location[currentLang];
+  document.getElementById('modal-desc-label').textContent = t.descLabel;
+  document.getElementById('modal-desc').textContent = ex.desc[currentLang];
+  document.getElementById('modal-tags-label').textContent = t.tagsLabel;
+  document.getElementById('modal-tags').innerHTML = ex.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+  document.getElementById('modal-team-label').textContent = t.teamLabel;
+  document.getElementById('modal-team').innerHTML = ex.team.map(m => `
+    <div class="attendee-row">
+      <div class="attendee-avatar">${m.name.slice(0,2).toUpperCase()}</div>
+      <div class="attendee-info">
+        <div class="attendee-name">${m.name}</div>
+        <div class="attendee-role">${m.role[currentLang]}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('modal-info-row').innerHTML = `
+    <div class="info-box"><div class="info-box-label">${t.boxDate}</div><div class="info-box-value">${ex.dates}</div></div>
+    <div class="info-box"><div class="info-box-label">${t.boxVenue}</div><div class="info-box-value">${ex.venue[currentLang]}</div></div>
+    <div class="info-box"><div class="info-box-label">${t.boxType}</div><div class="info-box-value">${ex.type === 'attend' ? t.typeAttend : t.typeVisit}</div></div>
+    <div class="info-box"><div class="info-box-label">${t.boxBooth}</div><div class="info-box-value">${ex.booth[currentLang]}</div></div>
+  `;
+  document.getElementById('modal-map-btn').textContent = t.mapBtn;
+  document.getElementById('modal-map-btn').onclick = () => window.open(ex.mapUrl, '_blank');
+  document.getElementById('modal-web-btn').textContent = t.webBtn;
+  document.getElementById('modal-web-btn').onclick = () => window.open(ex.webUrl, '_blank');
+  document.getElementById('modal-backdrop').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-backdrop')) {
+    document.getElementById('modal-backdrop').classList.remove('open');
+  }
+}
+
+// Touch swipe-down to close modal
+(function() {
+  const modal = document.getElementById('modal-content');
+  const backdrop = document.getElementById('modal-backdrop');
+  let startY = 0, isDragging = false;
+
+  modal.addEventListener('touchstart', e => {
+    startY = e.touches[0].clientY;
+    isDragging = true;
+    modal.style.transition = 'none';
+  }, { passive: true });
+
+  modal.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 0) modal.style.transform = `translateY(${dy}px)`;
+  }, { passive: true });
+
+  modal.addEventListener('touchend', e => {
+    const dy = e.changedTouches[0].clientY - startY;
+    modal.style.transition = '';
+    modal.style.transform = '';
+    if (dy > 80) backdrop.classList.remove('open');
+    isDragging = false;
+  });
+})();
+
+// Theme toggle
+function toggleTheme() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#0d0f14' : '#f7f7f5');
+}
+
+// Restore saved theme
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.documentElement.classList.add('dark');
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0f14');
+  }
+})();
+
+// Init
+applyLang();
+renderCards();
+</script>
+</body>
+</html>
