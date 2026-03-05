@@ -651,6 +651,29 @@
 
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* COUNTRY GRID (inside modal) */
+  .country-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .country-tag {
+    background: rgba(201,134,42,0.08);
+    border: 1px solid rgba(201,134,42,0.2);
+    color: var(--accent);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+
+  :root.dark .country-tag {
+    background: rgba(232,184,109,0.08);
+    border-color: rgba(232,184,109,0.2);
+  }
+
   /* STATS BAR */
   .stats-bar {
     display: flex;
@@ -711,6 +734,9 @@
 
   /* ── Mobile (480px) ── */
   @media (max-width: 480px) {
+    /* Country grid in modal */
+    .country-grid { grid-template-columns: repeat(2, 1fr); }
+
     /* Header */
     header {
       padding: 12px 16px;
@@ -896,6 +922,10 @@
     </div>
     <div class="modal-body">
       <div class="info-row" id="modal-info-row"></div>
+      <div class="section-title" id="modal-country-label">國家概況</div>
+      <div class="country-grid" id="modal-country-grid"></div>
+      <div class="description-text" id="modal-country-desc" style="margin-top:10px"></div>
+      <div class="tag-list" id="modal-country-tags" style="margin-top:10px"></div>
       <div class="section-title" id="modal-desc-label">展覽簡介</div>
       <div class="description-text" id="modal-desc"></div>
       <div class="section-title" id="modal-tags-label">產品重點</div>
@@ -922,9 +952,11 @@ const i18n = {
     sectionUpcoming: '即將到來',
     statusUpcoming: '即將到來', statusActive: '進行中', statusPast: '已結束',
     typeAttend: '參展', typeVisit: '看展',
+    countryLabel: '國家概況',
     descLabel: '展覽簡介', tagsLabel: '產品重點', teamLabel: '出差人員',
     mapBtn: '🗺 地圖導航', webBtn: '🌐 官方網站',
     boxDate: '展期', boxVenue: '展館', boxType: '性質', boxBooth: '攤位',
+    cpCapital: '首都', cpPop: '人口', cpLang: '語言', cpCurrency: '貨幣', cpArea: '面積', cpTz: '時區',
   },
   en: {
     headerSub: 'Exhibition Hub',
@@ -936,9 +968,11 @@ const i18n = {
     sectionUpcoming: 'Upcoming',
     statusUpcoming: 'Upcoming', statusActive: 'Active', statusPast: 'Past',
     typeAttend: 'Exhibiting', typeVisit: 'Visiting',
+    countryLabel: 'Country Overview',
     descLabel: 'About this show', tagsLabel: 'Product Focus', teamLabel: 'Team Members',
     mapBtn: '🗺 Get Directions', webBtn: '🌐 Official Website',
     boxDate: 'Dates', boxVenue: 'Venue', boxType: 'Type', boxBooth: 'Booth No.',
+    cpCapital: 'Capital', cpPop: 'Population', cpLang: 'Language', cpCurrency: 'Currency', cpArea: 'Area', cpTz: 'Timezone',
   },
   vi: {
     headerSub: 'Trung Tâm Triển Lãm',
@@ -950,9 +984,11 @@ const i18n = {
     sectionUpcoming: 'Sắp tới',
     statusUpcoming: 'Sắp tới', statusActive: 'Đang diễn ra', statusPast: 'Đã kết thúc',
     typeAttend: 'Triển lãm', typeVisit: 'Tham quan',
+    countryLabel: 'Tổng quan quốc gia',
     descLabel: 'Giới thiệu triển lãm', tagsLabel: 'Trọng tâm sản phẩm', teamLabel: 'Thành viên tham gia',
     mapBtn: '🗺 Chỉ đường', webBtn: '🌐 Website chính thức',
     boxDate: 'Thời gian', boxVenue: 'Địa điểm', boxType: 'Loại', boxBooth: 'Số gian hàng',
+    cpCapital: 'Thủ đô', cpPop: 'Dân số', cpLang: 'Ngôn ngữ', cpCurrency: 'Tiền tệ', cpArea: 'Diện tích', cpTz: 'Múi giờ',
   }
 };
 
@@ -978,6 +1014,24 @@ const exhibitions = [
     ],
     mapUrl: 'https://maps.google.com/?q=ATLAPA+Convention+Center+Panama',
     webUrl: 'https://expocomer.com',
+    country: {
+      capital: 'Panama City',
+      population: { zh: '約 440 萬', en: '~4.4 Million', vi: '~4,4 triệu' },
+      language: { zh: '西班牙語', en: 'Spanish', vi: 'Tiếng Tây Ban Nha' },
+      currency: { zh: '巴波亞 / 美元', en: 'Balboa / USD', vi: 'Balboa / USD' },
+      area: '75,417 km²',
+      timezone: 'UTC−5',
+      desc: {
+        zh: '巴拿馬位於中美洲最南端，連結太平洋與大西洋的巴拿馬運河是全球貿易的關鍵樞紐，每年通過超過 14,000 艘船隻。以服務業為主的經濟體，美元為實際流通貨幣，金融、物流與自由貿易區高度發達；科隆自由貿易區（Colón Free Trade Zone）是全球第二大自由貿易區。對台灣企業而言，巴拿馬是進入拉丁美洲市場的重要門戶。',
+        en: 'Panama, at the southern tip of Central America, is home to the Panama Canal — a critical artery of global trade connecting the Pacific and Atlantic Oceans, with over 14,000 vessels transiting annually. Its service-based, dollarized economy features a world-class financial sector, logistics hub, and the Colón Free Trade Zone — the world\'s second largest. For Taiwanese companies, Panama serves as a key gateway to Latin America.',
+        vi: 'Panama, nằm ở cực nam Trung Mỹ, là nơi có Kênh đào Panama — huyết mạch thương mại toàn cầu nối Thái Bình Dương và Đại Tây Dương, với hơn 14.000 tàu qua lại mỗi năm. Nền kinh tế dịch vụ với đô la hóa hoàn toàn, có khu thương mại tự do Colón — lớn thứ hai thế giới. Với doanh nghiệp Đài Loan, Panama là cửa ngõ quan trọng vào thị trường Mỹ Latinh.',
+      },
+      highlights: {
+        zh: ['🚢 巴拿馬運河', '🏦 科隆自由貿易區', '💵 美元化經濟', '🌎 中美洲門戶'],
+        en: ['🚢 Panama Canal', '🏦 Colón Free Trade Zone', '💵 Dollarized Economy', '🌎 Gateway to LatAm'],
+        vi: ['🚢 Kênh đào Panama', '🏦 Khu TM Tự do Colón', '💵 Kinh tế đô la hóa', '🌎 Cửa ngõ Mỹ Latinh'],
+      },
+    },
   }
 ];
 
@@ -1059,6 +1113,25 @@ function openModal(id) {
   document.getElementById('modal-title').textContent = ex.title[currentLang];
   document.getElementById('modal-date').textContent = '📅 ' + ex.dates;
   document.getElementById('modal-loc').textContent = '📍 ' + ex.location[currentLang];
+  // Country section
+  document.getElementById('modal-country-label').textContent = t.countryLabel;
+  const c = ex.country;
+  document.getElementById('modal-country-grid').innerHTML = [
+    [t.cpCapital, c.capital],
+    [t.cpPop,     c.population[currentLang]],
+    [t.cpLang,    c.language[currentLang]],
+    [t.cpCurrency,c.currency[currentLang]],
+    [t.cpArea,    c.area],
+    [t.cpTz,      c.timezone],
+  ].map(([label, val]) => `
+    <div class="info-box">
+      <div class="info-box-label">${label}</div>
+      <div class="info-box-value">${val}</div>
+    </div>`).join('');
+  document.getElementById('modal-country-desc').textContent = c.desc[currentLang];
+  document.getElementById('modal-country-tags').innerHTML = c.highlights[currentLang]
+    .map(h => `<span class="country-tag">${h}</span>`).join('');
+
   document.getElementById('modal-desc-label').textContent = t.descLabel;
   document.getElementById('modal-desc').textContent = ex.desc[currentLang];
   document.getElementById('modal-tags-label').textContent = t.tagsLabel;
