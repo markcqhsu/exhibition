@@ -867,25 +867,21 @@
 </header>
 
 <main>
-  <div class="page-title" id="page-title">國際<span>展覽</span>資訊</div>
-  <div class="page-desc" id="page-desc">出差參展・看展記錄 — 分享給全體同仁</div>
+  <div class="page-title" id="page-title">台宏業務處<span>參展</span>資訊</div>
+  <div class="page-desc" id="page-desc">出差參展・看展記錄 — 企劃室</div>
 
   <div class="stats-bar">
     <div class="stat">
-      <div class="stat-num">2</div>
+      <div class="stat-num" id="stat1-num">0</div>
       <div class="stat-label" id="stat1-label">即將到來</div>
     </div>
     <div class="stat">
-      <div class="stat-num">0</div>
-      <div class="stat-label" id="stat2-label">進行中</div>
+      <div class="stat-num" id="stat2-num">0</div>
+      <div class="stat-label" id="stat2-label">已結束</div>
     </div>
     <div class="stat">
-      <div class="stat-num">0</div>
-      <div class="stat-label" id="stat3-label">已結束</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">4</div>
-      <div class="stat-label" id="stat4-label">2025 全年計畫</div>
+      <div class="stat-num" id="stat3-num">0</div>
+      <div class="stat-label" id="stat3-label">2026 全年計畫</div>
     </div>
   </div>
 
@@ -943,9 +939,9 @@
 const i18n = {
   zh: {
     headerSub: '展覽資訊中心',
-    pageTitle: '國際<span style="color:var(--accent)">展覽</span>資訊',
-    pageDesc: '出差參展・看展記錄 — 分享給全體同仁',
-    stat1: '即將到來', stat2: '進行中', stat3: '已結束', stat4: '2025 全年計畫',
+    pageTitle: '台宏業務處<span style="color:var(--accent)">參展</span>資訊',
+    pageDesc: '出差參展・看展記錄 — 企劃室',
+    stat1: '即將到來', stat2: '已結束', stat3: '2026 全年計畫',
     filterAll: '全部', filterUpcoming: '即將到來', filterPast: '已結束',
     filterAttend: '參展', filterVisit: '看展',
     sectionUpcoming: '即將到來',
@@ -959,9 +955,9 @@ const i18n = {
   },
   en: {
     headerSub: 'Exhibition Hub',
-    pageTitle: 'Global <span style="color:var(--accent)">Exhibition</span> Info',
+    pageTitle: 'Hon Chuan Sales <span style="color:var(--accent)">Exhibition</span> Info',
     pageDesc: 'Business trip & trade show records — shared with all team members',
-    stat1: 'Upcoming', stat2: 'Active', stat3: 'Past', stat4: '2025 Full Year',
+    stat1: 'Upcoming', stat2: 'Past', stat3: '2026 Full Year',
     filterAll: 'All', filterUpcoming: 'Upcoming', filterPast: 'Past',
     filterAttend: 'Exhibiting', filterVisit: 'Visiting',
     sectionUpcoming: 'Upcoming',
@@ -1072,13 +1068,26 @@ function applyLang() {
   document.getElementById('stat1-label').textContent = t.stat1;
   document.getElementById('stat2-label').textContent = t.stat2;
   document.getElementById('stat3-label').textContent = t.stat3;
-  document.getElementById('stat4-label').textContent = t.stat4;
   document.getElementById('filter-all').textContent = t.filterAll;
   document.getElementById('filter-upcoming').textContent = t.filterUpcoming;
   document.getElementById('filter-past').textContent = t.filterPast;
   document.getElementById('filter-attend').textContent = t.filterAttend;
   document.getElementById('filter-visit').textContent = t.filterVisit;
   document.getElementById('section-upcoming-label').textContent = t.sectionUpcoming;
+}
+
+function avatarText(name) {
+  const base = name.replace(/\s*\(.*\)/, '').trim();
+  if (/^[\u4e00-\u9fff]/.test(base)) return base.slice(1);
+  return base.slice(0, 2).toUpperCase();
+}
+
+function updateStats() {
+  const upcoming = exhibitions.filter(e => e.status === 'upcoming').length;
+  const past = exhibitions.filter(e => e.status === 'past').length;
+  document.getElementById('stat1-num').textContent = upcoming;
+  document.getElementById('stat2-num').textContent = past;
+  document.getElementById('stat3-num').textContent = upcoming + past;
 }
 
 function setFilter(f) {
@@ -1112,7 +1121,7 @@ function renderCards() {
         <div class="card-location">📍 ${ex.location[currentLang]}</div>
         <div class="card-date">📅 ${ex.dates}</div>
         <div class="card-team">
-          ${ex.team.map(m => `<div class="avatar" title="${m.name}">${m.name.slice(0,2).toUpperCase()}</div>`).join('')}
+          ${ex.team.map(m => `<div class="avatar" title="${m.name}">${avatarText(m.name)}</div>`).join('')}
         </div>
       </div>
       <div class="card-footer">
@@ -1156,7 +1165,7 @@ function openModal(id) {
   document.getElementById('modal-team-label').textContent = t.teamLabel;
   document.getElementById('modal-team').innerHTML = ex.team.map(m => `
     <div class="attendee-row">
-      <div class="attendee-avatar">${m.name.slice(0,2).toUpperCase()}</div>
+      <div class="attendee-avatar">${avatarText(m.name)}</div>
       <div class="attendee-info">
         <div class="attendee-name">${m.name}</div>
         <div class="attendee-role">${m.role[currentLang]}</div>
@@ -1227,6 +1236,7 @@ function toggleTheme() {
 // Init
 applyLang();
 renderCards();
+updateStats();
 </script>
 </body>
 </html>
