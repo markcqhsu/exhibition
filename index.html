@@ -858,7 +858,6 @@
     <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('zh')">中文</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('vi')" style="display:none">Tiếng Việt</button>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="切換深色模式">
       <span class="icon-moon">🌙</span>
@@ -873,7 +872,7 @@
 
   <div class="stats-bar">
     <div class="stat">
-      <div class="stat-num">1</div>
+      <div class="stat-num">2</div>
       <div class="stat-label" id="stat1-label">即將到來</div>
     </div>
     <div class="stat">
@@ -885,7 +884,7 @@
       <div class="stat-label" id="stat3-label">已結束</div>
     </div>
     <div class="stat">
-      <div class="stat-num">3</div>
+      <div class="stat-num">4</div>
       <div class="stat-label" id="stat4-label">2025 全年計畫</div>
     </div>
   </div>
@@ -974,62 +973,80 @@ const i18n = {
     boxDate: 'Dates', boxVenue: 'Venue', boxType: 'Type', boxBooth: 'Booth No.',
     cpCapital: 'Capital', cpPop: 'Population', cpLang: 'Language', cpCurrency: 'Currency', cpArea: 'Area', cpTz: 'Timezone',
   },
-  vi: {
-    headerSub: 'Trung Tâm Triển Lãm',
-    pageTitle: 'Thông Tin <span style="color:var(--accent)">Triển Lãm</span> Quốc Tế',
-    pageDesc: 'Ghi chép tham gia triển lãm — chia sẻ cho toàn thể nhân viên',
-    stat1: 'Sắp tới', stat2: 'Đang diễn ra', stat3: 'Đã kết thúc', stat4: 'Kế hoạch 2025',
-    filterAll: 'Tất cả', filterUpcoming: 'Sắp tới', filterPast: 'Đã kết thúc',
-    filterAttend: 'Triển lãm', filterVisit: 'Tham quan',
-    sectionUpcoming: 'Sắp tới',
-    statusUpcoming: 'Sắp tới', statusActive: 'Đang diễn ra', statusPast: 'Đã kết thúc',
-    typeAttend: 'Triển lãm', typeVisit: 'Tham quan',
-    countryLabel: 'Tổng quan quốc gia',
-    descLabel: 'Giới thiệu triển lãm', tagsLabel: 'Trọng tâm sản phẩm', teamLabel: 'Thành viên tham gia',
-    mapBtn: '🗺 Chỉ đường', webBtn: '🌐 Website chính thức',
-    boxDate: 'Thời gian', boxVenue: 'Địa điểm', boxType: 'Loại', boxBooth: 'Số gian hàng',
-    cpCapital: 'Thủ đô', cpPop: 'Dân số', cpLang: 'Ngôn ngữ', cpCurrency: 'Tiền tệ', cpArea: 'Diện tích', cpTz: 'Múi giờ',
-  }
 };
 
 const exhibitions = [
   {
     id: 1,
     flag: '🇵🇦',
-    title: { zh: 'EXPOCOMER 巴拿馬國際貿易博覽會', en: 'EXPOCOMER Panama International Trade Fair', vi: 'Hội chợ Thương mại Quốc tế Panama EXPOCOMER' },
-    location: { zh: '巴拿馬城・巴拿馬', en: 'Panama City, Panama', vi: 'Panama City, Panama' },
+    title: { zh: 'EXPOCOMER 巴拿馬國際貿易博覽會', en: 'EXPOCOMER Panama International Trade Fair' },
+    location: { zh: '巴拿馬城・巴拿馬', en: 'Panama City, Panama' },
     dates: '2025 Mar 10 – 12',
     status: 'upcoming',
     type: 'visit',
-    venue: { zh: 'ATLAPA Convention Center', en: 'ATLAPA Convention Center', vi: 'ATLAPA Convention Center' },
-    booth: { zh: '—', en: '—', vi: '—' },
+    venue: { zh: 'ATLAPA Convention Center', en: 'ATLAPA Convention Center' },
+    booth: { zh: '—', en: '—' },
     desc: {
       zh: 'EXPOCOMER 是中美洲最重要的國際貿易博覽會之一，每年吸引數十個國家的參展商與買家，涵蓋食品飲料、包裝材料、工業設備等多元產品類別。此次看展主要目的為瞭解飲料包裝市場最新趨勢，並蒐集競品資訊。',
       en: 'EXPOCOMER is one of the most important international trade fairs in Central America, attracting exhibitors and buyers from dozens of countries, covering food & beverage, packaging, industrial equipment and more. The main purpose of this visit is to track the latest trends in beverage packaging and gather competitive intelligence.',
-      vi: 'EXPOCOMER là một trong những hội chợ thương mại quốc tế quan trọng nhất Trung Mỹ, thu hút hàng chục quốc gia tham gia với các sản phẩm thực phẩm, đồ uống, bao bì và thiết bị công nghiệp. Mục đích chính của chuyến tham quan là tìm hiểu xu hướng bao bì đồ uống mới nhất.',
     },
     tags: ['飲料包裝', 'PET瓶', '製造設備', '市場調查'],
     team: [
-      { name: 'Mark', role: { zh: '業務拓展', en: 'Business Development', vi: 'Phát triển kinh doanh' } }
+      { name: '陳敬峯 (Jeff)', role: { zh: '業務拓展', en: 'Business Development' } },
+      { name: '苗其瑋 (Wallace)', role: { zh: '業務拓展', en: 'Business Development' } },
+      { name: '徐喬奎 (Mark)', role: { zh: '業務拓展', en: 'Business Development' } },
     ],
     mapUrl: 'https://maps.google.com/?q=ATLAPA+Convention+Center+Panama',
     webUrl: 'https://expocomer.com',
     country: {
       capital: 'Panama City',
-      population: { zh: '約 440 萬', en: '~4.4 Million', vi: '~4,4 triệu' },
-      language: { zh: '西班牙語', en: 'Spanish', vi: 'Tiếng Tây Ban Nha' },
-      currency: { zh: '巴波亞 / 美元', en: 'Balboa / USD', vi: 'Balboa / USD' },
+      population: { zh: '約 440 萬', en: '~4.4 Million' },
+      language: { zh: '西班牙語', en: 'Spanish' },
+      currency: { zh: '巴波亞 / 美元', en: 'Balboa / USD' },
       area: '75,417 km²',
       timezone: 'UTC−5',
       desc: {
         zh: '巴拿馬位於中美洲最南端，連結太平洋與大西洋的巴拿馬運河是全球貿易的關鍵樞紐，每年通過超過 14,000 艘船隻。以服務業為主的經濟體，美元為實際流通貨幣，金融、物流與自由貿易區高度發達；科隆自由貿易區（Colón Free Trade Zone）是全球第二大自由貿易區。對台灣企業而言，巴拿馬是進入拉丁美洲市場的重要門戶。',
         en: 'Panama, at the southern tip of Central America, is home to the Panama Canal — a critical artery of global trade connecting the Pacific and Atlantic Oceans, with over 14,000 vessels transiting annually. Its service-based, dollarized economy features a world-class financial sector, logistics hub, and the Colón Free Trade Zone — the world\'s second largest. For Taiwanese companies, Panama serves as a key gateway to Latin America.',
-        vi: 'Panama, nằm ở cực nam Trung Mỹ, là nơi có Kênh đào Panama — huyết mạch thương mại toàn cầu nối Thái Bình Dương và Đại Tây Dương, với hơn 14.000 tàu qua lại mỗi năm. Nền kinh tế dịch vụ với đô la hóa hoàn toàn, có khu thương mại tự do Colón — lớn thứ hai thế giới. Với doanh nghiệp Đài Loan, Panama là cửa ngõ quan trọng vào thị trường Mỹ Latinh.',
       },
       highlights: {
         zh: ['🚢 巴拿馬運河', '🏦 科隆自由貿易區', '💵 美元化經濟', '🌎 中美洲門戶'],
         en: ['🚢 Panama Canal', '🏦 Colón Free Trade Zone', '💵 Dollarized Economy', '🌎 Gateway to LatAm'],
-        vi: ['🚢 Kênh đào Panama', '🏦 Khu TM Tự do Colón', '💵 Kinh tế đô la hóa', '🌎 Cửa ngõ Mỹ Latinh'],
+      },
+    },
+  },
+  {
+    id: 2,
+    flag: '🇮🇳',
+    title: { zh: 'drinktec India 印度飲料科技展', en: 'drinktec India' },
+    location: { zh: '孟買・印度', en: 'Mumbai, India' },
+    dates: '2025 Oct 28 – 30',
+    status: 'upcoming',
+    type: 'attend',
+    venue: { zh: 'Jio World Convention Centre', en: 'Jio World Convention Centre' },
+    booth: { zh: '待確認', en: 'TBD' },
+    desc: {
+      zh: 'drinktec India 是德國慕尼黑 drinktec 在亞洲的重要延伸展，聚焦飲料與液態食品加工、灌裝、包裝技術。展會吸引來自全球的飲料設備供應商與印度本地品牌商，是拓展南亞市場的關鍵平台。此次以參展商身份出席，展示公司產品與解決方案，開拓印度客戶。',
+      en: 'drinktec India is a key Asian extension of the renowned Munich drinktec, focusing on beverage and liquid food processing, filling, and packaging technology. The show attracts global equipment suppliers and Indian brands, making it a prime platform for South Asia market expansion. We will exhibit our products and solutions to develop new Indian customers.',
+    },
+    tags: ['飲料設備', 'PET瓶', '灌裝技術', '包裝解決方案', '南亞市場'],
+    team: [],
+    mapUrl: 'https://maps.google.com/?q=Jio+World+Convention+Centre+Mumbai',
+    webUrl: 'https://drinktec-india.com/',
+    country: {
+      capital: 'New Delhi',
+      population: { zh: '約 14.4 億', en: '~1.44 Billion' },
+      language: { zh: '印地語、英語', en: 'Hindi, English' },
+      currency: { zh: '印度盧比 (INR)', en: 'Indian Rupee (INR)' },
+      area: '3,287,263 km²',
+      timezone: 'UTC+5:30',
+      desc: {
+        zh: '印度是全球人口最多的國家，也是成長最快的主要經濟體之一。龐大的中產階級崛起推動飲料消費快速成長，瓶裝水、果汁、碳酸飲料及健康飲品需求旺盛。印度飲料包裝市場年複合成長率持續攀升，對高品質 PET 瓶及灌裝設備的需求殷切，是台灣飲料包材企業不可忽視的戰略市場。',
+        en: 'India is the world\'s most populous country and one of the fastest-growing major economies. A rising middle class is driving rapid growth in beverage consumption — bottled water, juices, carbonated drinks, and health beverages are all booming. India\'s beverage packaging market is growing at a strong CAGR, with high demand for quality PET bottles and filling equipment, making it a strategic market for Taiwanese packaging companies.',
+      },
+      highlights: {
+        zh: ['🍶 飲料消費高速成長', '🏭 製造業大國', '💡 數位經濟崛起', '🌏 南亞最大市場'],
+        en: ['🍶 Fast-growing Beverage Market', '🏭 Manufacturing Powerhouse', '💡 Digital Economy Rise', '🌏 Largest South Asian Market'],
       },
     },
   }
@@ -1041,7 +1058,7 @@ let currentFilter = 'all';
 function setLang(lang) {
   currentLang = lang;
   document.querySelectorAll('.lang-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['zh','en','vi'][i] === lang);
+    b.classList.toggle('active', ['zh','en'][i] === lang);
   });
   applyLang();
   renderCards();
