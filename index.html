@@ -614,6 +614,47 @@
   .attendee-name { font-size: 14px; font-weight: 500; }
   .attendee-role { font-size: 12px; color: var(--text-muted); }
 
+  /* Special product section */
+  .special-product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 8px 0 12px;
+    padding: 12px 14px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .sp-meta-row { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .sp-meta-label { font-size: 11px; color: var(--text-muted); white-space: nowrap; min-width: 56px; }
+  .sp-meta-value { font-size: 14px; color: var(--text-primary); font-weight: 500; }
+  .special-product-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .sp-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: zoom-in;
+    transition: transform 0.2s;
+  }
+  .sp-img.expanded {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: unset;
+    object-fit: contain;
+    border-radius: 0;
+    z-index: 200;
+    background: #000;
+    cursor: zoom-out;
+  }
+
   .modal-actions {
     padding: 20px 32px;
     border-top: 1px solid var(--border);
@@ -925,6 +966,11 @@
       <div class="description-text" id="modal-desc"></div>
       <div class="section-title" id="modal-tags-label">產品重點</div>
       <div class="tag-list" id="modal-tags"></div>
+      <div id="modal-special-product-section" style="display:none">
+        <div class="section-title" id="modal-special-product-label">✨ 特色 / 特殊產品分享</div>
+        <div class="special-product-meta" id="modal-special-product-meta"></div>
+        <div class="special-product-gallery" id="modal-special-product-gallery"></div>
+      </div>
       <div class="section-title" id="modal-team-label">出差人員</div>
       <div class="attendee-list" id="modal-team"></div>
     </div>
@@ -952,6 +998,8 @@ const i18n = {
     mapBtn: '🗺 地圖導航', webBtn: '🌐 官方網站',
     boxDate: '展期', boxVenue: '展館', boxType: '性質', boxBooth: '攤位',
     cpCapital: '首都', cpPop: '人口', cpLang: '語言', cpCurrency: '貨幣', cpArea: '面積', cpTz: '時區',
+    specialProductLabel: '✨ 特色 / 特殊產品分享',
+    spLocation: '發現地點', spProduct: '產品',
   },
   en: {
     headerSub: 'Exhibition Hub',
@@ -968,6 +1016,8 @@ const i18n = {
     mapBtn: '🗺 Get Directions', webBtn: '🌐 Official Website',
     boxDate: 'Dates', boxVenue: 'Venue', boxType: 'Type', boxBooth: 'Booth No.',
     cpCapital: 'Capital', cpPop: 'Population', cpLang: 'Language', cpCurrency: 'Currency', cpArea: 'Area', cpTz: 'Timezone',
+    specialProductLabel: '✨ Featured / Special Product',
+    spLocation: 'Found at', spProduct: 'Product',
   },
 };
 
@@ -994,6 +1044,11 @@ const exhibitions = [
     ],
     mapUrl: 'https://maps.google.com/?q=ATLAPA+Convention+Center+Panama',
     webUrl: 'https://expocomer.com',
+    specialProduct: {
+      location: { zh: '洛杉磯加油站的便利商店', en: 'Gas station convenience store in Los Angeles' },
+      product: { zh: '可重複密封鋁罐，有別於一般常見的鋁罐設計', en: 'Resealable aluminum can — a unique twist on the standard can design' },
+      images: ['images/panama_special_1.jpg', 'images/panama_special_2.jpg', 'images/panama_special_3.jpg'],
+    },
     country: {
       capital: 'Panama City',
       population: { zh: '約 440 萬', en: '~4.4 Million' },
@@ -1186,6 +1241,21 @@ function openModal(id) {
   document.getElementById('modal-map-btn').onclick = () => window.open(ex.mapUrl, '_blank');
   document.getElementById('modal-web-btn').textContent = t.webBtn;
   document.getElementById('modal-web-btn').onclick = () => window.open(ex.webUrl, '_blank');
+  // Special product section
+  const spSection = document.getElementById('modal-special-product-section');
+  if (ex.specialProduct) {
+    spSection.style.display = '';
+    document.getElementById('modal-special-product-label').textContent = t.specialProductLabel;
+    const sp = ex.specialProduct;
+    document.getElementById('modal-special-product-meta').innerHTML = `
+      <div class="sp-meta-row"><span class="sp-meta-label">${t.spLocation}</span><span class="sp-meta-value">${sp.location[currentLang]}</span></div>
+      <div class="sp-meta-row"><span class="sp-meta-label">${t.spProduct}</span><span class="sp-meta-value">${sp.product[currentLang]}</span></div>
+    `;
+    document.getElementById('modal-special-product-gallery').innerHTML = sp.images
+      .map(src => `<img class="sp-img" src="${src}" alt="特殊產品圖片" onclick="this.classList.toggle('expanded')">`).join('');
+  } else {
+    spSection.style.display = 'none';
+  }
   document.getElementById('modal-backdrop').classList.add('open');
 }
 
