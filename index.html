@@ -1265,29 +1265,31 @@ function closeModal(e) {
   }
 }
 
-// Touch swipe-down to close modal
+// Touch swipe-down to close modal (only when scrolled to top)
 (function() {
   const modal = document.getElementById('modal-content');
+  const body = modal.querySelector('.modal-body');
   const backdrop = document.getElementById('modal-backdrop');
   let startY = 0, isDragging = false;
 
   modal.addEventListener('touchstart', e => {
     startY = e.touches[0].clientY;
-    isDragging = true;
-    modal.style.transition = 'none';
+    isDragging = body.scrollTop === 0;
+    if (isDragging) modal.style.transition = 'none';
   }, { passive: true });
 
   modal.addEventListener('touchmove', e => {
     if (!isDragging) return;
     const dy = e.touches[0].clientY - startY;
     if (dy > 0) modal.style.transform = `translateY(${dy}px)`;
+    else isDragging = false;
   }, { passive: true });
 
   modal.addEventListener('touchend', e => {
     const dy = e.changedTouches[0].clientY - startY;
     modal.style.transition = '';
     modal.style.transform = '';
-    if (dy > 80) backdrop.classList.remove('open');
+    if (isDragging && dy > 80) backdrop.classList.remove('open');
     isDragging = false;
   });
 })();
