@@ -558,12 +558,15 @@
   }
 
   .section-title {
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    margin-top: 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 12px;
+    margin-top: 28px;
+    padding-left: 10px;
+    border-left: 3px solid var(--accent);
+    line-height: 1.3;
   }
 
   .description-text {
@@ -620,6 +623,177 @@
   .attendee-info {}
   .attendee-name { font-size: 0.9rem; font-weight: 500; }
   .attendee-role { font-size: 0.9rem; color: var(--text-muted); }
+
+  /* Customer visit report */
+  .cv-intro {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .cv-brand-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .cv-brand-card {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .cv-brand-card.key {
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+  .cv-brand-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .cv-brand-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .cv-brand-badge {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #0d0f14;
+    font-weight: 600;
+  }
+  .cv-brand-desc {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+  .cv-sub-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 16px 0 8px;
+  }
+  .cv-pill-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cv-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.875rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .cv-pkg-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cv-pkg-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .cv-pkg-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    min-width: 130px;
+    flex-shrink: 0;
+    line-height: 1.5;
+  }
+  .cv-pkg-sizes {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .cv-note {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    margin-top: 14px;
+  }
+  .cv-para {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .cv-para:last-child { margin-bottom: 0; }
+  .cv-highlight {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .cv-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .cv-gallery-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface2);
+    cursor: zoom-in;
+  }
+  .cv-gallery-item img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s;
+  }
+  .cv-gallery-item:hover img { transform: scale(1.03); }
+  .cv-gallery-item .cv-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 8px;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    color: #fff;
+    background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  }
+  .cv-gallery-item.expanded {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    z-index: 200;
+    background: #000;
+    cursor: zoom-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cv-gallery-item.expanded img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: unset;
+    object-fit: contain;
+    transform: none;
+  }
+  .cv-gallery-item.expanded .cv-caption { font-size: 0.85rem; }
 
   /* Special product section */
   .special-product-meta {
@@ -990,7 +1164,7 @@
       <div class="tag-list" id="modal-country-tags" style="margin-top:10px"></div>
       <div class="section-title" id="modal-desc-label">展覽簡介</div>
       <div class="description-text" id="modal-desc"></div>
-      <div class="section-title" id="modal-tags-label">產品重點</div>
+      <div class="section-title" id="modal-tags-label">重點客戶拜訪</div>
       <div class="tag-list" id="modal-tags"></div>
       <div id="modal-special-product-section" style="display:none">
         <div class="section-title" id="modal-special-product-label">✨ 特色 / 特殊產品分享</div>
@@ -1020,7 +1194,7 @@ const i18n = {
     statusUpcoming: '即將到來', statusActive: '進行中', statusPast: '已結束',
     typeAttend: '參展', typeVisit: '看展',
     countryLabel: '國家概況',
-    descLabel: '展覽簡介', tagsLabel: '產品重點', teamLabel: '出差人員',
+    descLabel: '展覽簡介', tagsLabel: '重點客戶拜訪', teamLabel: '出差人員',
     mapBtn: '🗺 地圖導航', webBtn: '🌐 官方網站',
     boxDate: '展期', boxVenue: '展館', boxType: '性質', boxBooth: '攤位',
     cpCapital: '首都', cpPop: '人口', cpLang: '語言', cpCurrency: '貨幣', cpArea: '面積', cpTz: '時區',
@@ -1038,7 +1212,7 @@ const i18n = {
     statusUpcoming: 'Upcoming', statusActive: 'Active', statusPast: 'Past',
     typeAttend: 'Exhibiting', typeVisit: 'Visiting',
     countryLabel: 'Country Overview',
-    descLabel: 'About this show', tagsLabel: 'Product Focus', teamLabel: 'Team Members',
+    descLabel: 'About this show', tagsLabel: 'Key Customer Visits', teamLabel: 'Team Members',
     mapBtn: '🗺 Get Directions', webBtn: '🌐 Official Website',
     boxDate: 'Dates', boxVenue: 'Venue', boxType: 'Type', boxBooth: 'Booth No.',
     cpCapital: 'Capital', cpPop: 'Population', cpLang: 'Language', cpCurrency: 'Currency', cpArea: 'Area', cpTz: 'Timezone',
@@ -1062,7 +1236,41 @@ const exhibitions = [
       zh: 'EXPOCOMER 是中美洲最重要的國際貿易博覽會之一，每年吸引數十個國家的參展商與買家，涵蓋食品飲料、包裝材料、工業設備等多元產品類別。此次看展主要目的為瞭解飲料包裝市場最新趨勢，並蒐集競品資訊。',
       en: 'EXPOCOMER is one of the most important international trade fairs in Central America, attracting exhibitors and buyers from dozens of countries, covering food & beverage, packaging, industrial equipment and more. The main purpose of this visit is to track the latest trends in beverage packaging and gather competitive intelligence.',
     },
-    tags: ['飲料包裝', 'PET瓶', '製造設備', '市場調查'],
+    tags: [],
+    customerVisits: {
+      intro: '此次巴拿馬出差的重要行程之一，是拜訪透過阿里巴巴平台成交的巴拿馬知名高端瓶裝水品牌。整體而言，巴拿馬瓶裝水市場呈現明顯的兩極化結構，在地天然水源品牌在高端市場具有較強的主導地位。',
+      brands: [
+        { name: 'Panama Blue', desc: '巴拿馬最具代表性的頂級礦泉水品牌之一，水源來自 Cerro Azul 原始雨林，主打高品質天然泉水與設計感瓶身，主要通路為高端飯店與餐飲市場。', isKey: false },
+        { name: 'Bambito', desc: '水源來自 Volcán Barú 火山腳下的高海拔地區，強調天然礦物質與清冽口感，在零售市場擁有高品牌忠誠度。本次拜訪的重點客戶即為此品牌。', isKey: true },
+        { name: 'Aquaçai', desc: '主打 pH 值偏鹼性的天然泉水，定位於機能水與健康訴求市場。', isKey: false },
+      ],
+      detail: {
+        groupDesc: '隸屬 TRENCO 集團，集團旗下超過 25 家公司，主要事業為瓦斯與能源產業。目前產品除出口至美國華盛頓 DC 外，尚未拓展至其他歐美市場。',
+        productTypes: ['Still（純水）', 'Sparkling（氣泡水）'],
+        packaging: [
+          { label: 'PET 瓶', sub: '零售與辦公室通路', sizes: ['300ml / 600ml / 1.5L', '1 加侖 / 5 加侖'] },
+          { label: '玻璃瓶', sub: '高端餐飲與飯店', sizes: ['330ml / 750ml'] },
+        ],
+        sustainability: 'Bambito 亦非常重視永續發展，是巴拿馬唯一建立自有回收體系的瓶裝水品牌，回收計畫自 2018 年推動，並在活動與展會中設置玻璃瓶回收站。',
+      },
+      tetheredCap: [
+        { text: '客戶導入連結蓋（Tethered Cap）主要是為了強化品牌的環保形象。Bambito 長期定位高端市場，因此對永續與環保議題相當重視。' },
+        { text: '目前客戶共採購 2 個大櫃 + 1 個小櫃，約 600 萬個泰宏 1881 連結蓋。', highlight: true },
+        { text: '現階段僅部分產品導入，若未來全面導入，需求量仍有成長空間。市場實際觀察顯示，目前連結蓋與一般瓶蓋並行存在。' },
+      ],
+      followUp: [
+        '此次接待我們的是 TRENCO 集團旗下負責進出口與採購的 Master Parts & Service 公司總經理 Yoraima 及 Bambito 生產窗口。客戶對於我們親自拜訪表示相當重視，並願意推薦我們給其合作夥伴 Agua Cristalina 水廠。',
+        '除了目前合作的塑膠瓶蓋外，客戶部分產品仍使用塑環鋁蓋。在介紹純鋁蓋優勢後，客戶已同意提供樣品與圖面資料，後續將安排樣品測試，爭取鋁蓋導入機會。',
+      ],
+      photos: [
+        { src: 'images/panama_cv_1.jpg', caption: '便利商店販售機 — Bambito 與其他品牌並列' },
+        { src: 'images/panama_cv_2.jpg', caption: 'Bambito / TRENCO 集團倉庫外觀' },
+        { src: 'images/panama_cv_3.jpg', caption: 'Bambito 玻璃瓶回收站（永續計畫）' },
+        { src: 'images/panama_cv_4.jpg', caption: 'Bambito 產品系列 — PET 瓶與玻璃瓶展示' },
+        { src: 'images/panama_cv_5.jpg', caption: 'Bambito PET 瓶 — 零售通路實拍（Gold Taste Awards）' },
+        { src: 'images/panama_cv_6.jpg', caption: '與 Bambito 團隊合影（Yoraima 總經理）' },
+      ],
+    },
     team: [
       { name: '陳敬峯 (Jeff)', role: { zh: '業務拓展', en: 'Business Development' } },
       { name: '苗其瑋 (Wallace)', role: { zh: '業務拓展', en: 'Business Development' } },
@@ -1146,6 +1354,62 @@ function setLang(lang) {
   renderCards();
 }
 
+function renderCustomerVisits(cv) {
+  const brands = cv.brands.map(b => `
+    <div class="cv-brand-card${b.isKey ? ' key' : ''}">
+      <div class="cv-brand-header">
+        <span class="cv-brand-name">${b.name}</span>
+        ${b.isKey ? '<span class="cv-brand-badge">重點客戶</span>' : ''}
+      </div>
+      <div class="cv-brand-desc">${b.desc}</div>
+    </div>`).join('');
+
+  const d = cv.detail;
+  const pkgRows = d.packaging.map(p => `
+    <div class="cv-pkg-row">
+      <div class="cv-pkg-label">${p.label}<br><span style="font-weight:400;color:var(--text-muted)">${p.sub}</span></div>
+      <div class="cv-pkg-sizes">${p.sizes.join('<br>')}</div>
+    </div>`).join('');
+
+  const tcParas = cv.tetheredCap.map(p =>
+    p.highlight
+      ? `<span class="cv-highlight">${p.text}</span>`
+      : `<p class="cv-para">${p.text}</p>`
+  ).join('');
+  const fuParas = cv.followUp.map(p => `<p class="cv-para">${p}</p>`).join('');
+
+  const gallery = cv.photos ? `
+    <div class="cv-gallery">
+      ${cv.photos.map((p, i) => `
+        <div class="cv-gallery-item" onclick="toggleCvPhoto(this)" data-index="${i}">
+          <img src="${p.src}" alt="${p.caption}" loading="lazy">
+          <div class="cv-caption">${p.caption}</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  return `
+    <div class="cv-intro">${cv.intro}</div>
+    <div class="cv-brand-grid">${brands}</div>
+
+    <div class="cv-sub-title">Bambito 品牌與產品</div>
+    <div class="cv-para">${d.groupDesc}</div>
+
+    <div class="cv-sub-title">產品類型</div>
+    <div class="cv-pill-list">${d.productTypes.map(t => `<span class="cv-pill">${t}</span>`).join('')}</div>
+
+    <div class="cv-sub-title">包裝規格</div>
+    <div class="cv-pkg-table">${pkgRows}</div>
+    <div class="cv-note">♻️ ${d.sustainability}</div>
+
+    <div class="cv-sub-title">連結蓋導入情況</div>
+    ${tcParas}
+
+    <div class="cv-sub-title">拜訪交流與後續機會</div>
+    ${fuParas}
+    ${gallery}
+  `;
+}
+
 function applyLang() {
   const t = i18n[currentLang];
   document.getElementById('header-sub').textContent = t.headerSub;
@@ -1160,6 +1424,19 @@ function applyLang() {
   document.getElementById('filter-attend').textContent = t.filterAttend;
   document.getElementById('filter-visit').textContent = t.filterVisit;
   document.getElementById('section-upcoming-label').textContent = t.sectionUpcoming;
+}
+
+function toggleCvPhoto(el) {
+  if (el.classList.contains('expanded')) {
+    el.classList.remove('expanded');
+    document.body.style.overflow = '';
+  } else {
+    document.querySelectorAll('.cv-gallery-item.expanded').forEach(e => {
+      e.classList.remove('expanded');
+    });
+    el.classList.add('expanded');
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 function avatarText(name) {
@@ -1247,7 +1524,14 @@ function openModal(id) {
   document.getElementById('modal-desc-label').textContent = t.descLabel;
   document.getElementById('modal-desc').textContent = ex.desc[currentLang];
   document.getElementById('modal-tags-label').textContent = t.tagsLabel;
-  document.getElementById('modal-tags').innerHTML = ex.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+  const tagsEl = document.getElementById('modal-tags');
+  if (ex.customerVisits) {
+    tagsEl.style.display = 'block';
+    tagsEl.innerHTML = renderCustomerVisits(ex.customerVisits);
+  } else {
+    tagsEl.style.display = '';
+    tagsEl.innerHTML = ex.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+  }
   document.getElementById('modal-team-label').textContent = t.teamLabel;
   document.getElementById('modal-team').innerHTML = ex.team.map(m => `
     <div class="attendee-row">
