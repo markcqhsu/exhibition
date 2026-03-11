@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>巴拿馬出差報告 — EXPOCOMER 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #c9922a;
+    --accent2: #3b82f6;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --surface: #f9f9f7;
+    --surface2: #f3f3f0;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11pt;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.7;
+  }
+
+  /* ── PRINT LAYOUT ── */
+  @page {
+    size: A4;
+    margin: 18mm 18mm 18mm 18mm;
+  }
+
+  @media print {
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    body { font-size: 10pt; }
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0 40px;
+  }
+
+  .cover-label {
+    font-size: 9pt;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .cover-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 28pt;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+
+  .cover-title span { color: var(--accent); }
+
+  .cover-subtitle {
+    font-size: 13pt;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  .cover-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 24px 0;
+    border-top: 2px solid var(--accent);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cover-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .cover-meta-label { font-size: 8pt; color: var(--muted); letter-spacing: 0.1em; }
+  .cover-meta-value { font-size: 11pt; font-weight: 600; }
+
+  .cover-team {
+    margin-top: 32px;
+    font-size: 9.5pt;
+    color: var(--muted);
+  }
+
+  .cover-team strong { color: var(--text); }
+
+  .cover-banner {
+    margin-top: 36px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .cover-banner img { width: 100%; display: block; }
+
+  /* ── SECTION TITLES ── */
+  h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15pt;
+    font-weight: 700;
+    color: var(--text);
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 16px;
+    margin-top: 36px;
+  }
+
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    margin-top: 20px;
+  }
+
+  /* ── BODY TEXT ── */
+  p { margin-bottom: 10px; line-height: 1.75; }
+
+  .muted { color: var(--muted); }
+
+  /* ── COUNTRY GRID ── */
+  .country-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .country-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+
+  .country-cell-label { font-size: 8pt; color: var(--muted); margin-bottom: 2px; }
+  .country-cell-value { font-size: 10.5pt; font-weight: 600; }
+
+  .highlight-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .highlight-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 9.5pt;
+    color: var(--text);
+  }
+
+  /* ── PHOTO GRID ── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .photo-grid img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .photo-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .photo-grid-2col img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .photo-caption {
+    font-size: 8pt;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 3px;
+  }
+
+  /* ── MARKET BRANDS ── */
+  .brand-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+  .brand-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .brand-card.key { border-left: 3px solid var(--accent); }
+
+  .brand-name { font-weight: 700; font-size: 10.5pt; margin-bottom: 2px; }
+  .brand-badge {
+    display: inline-block;
+    font-size: 7.5pt;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    padding: 1px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-weight: 600;
+  }
+  .brand-desc { font-size: 9.5pt; color: var(--muted); line-height: 1.6; }
+
+  /* ── PACKAGING ── */
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 10px 0 16px;
+  }
+
+  .pkg-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+
+  .pkg-card-label { font-weight: 700; font-size: 10.5pt; margin-bottom: 2px; }
+  .pkg-card-sub { font-size: 9pt; color: var(--muted); margin-bottom: 6px; }
+  .pkg-sizes { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pkg-size-tag {
+    font-size: 9pt;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 8px;
+    color: var(--muted);
+  }
+
+  /* ── PILLS ── */
+  .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 9.5pt;
+  }
+
+  /* ── TETHERED CAP ── */
+  .tc-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+  .tc-item {
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 9.5pt;
+    line-height: 1.65;
+  }
+  .tc-item.highlight {
+    background: #fef9ec;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── FOLLOW UP ── */
+  .follow-list { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+  .follow-item {
+    padding: 12px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent2);
+    background: var(--surface);
+    font-size: 9.5pt;
+    line-height: 1.7;
+  }
+
+  /* ── SPECIAL PRODUCT ── */
+  .special-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-top: 12px;
+  }
+
+  .special-meta { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .special-meta-row { display: flex; gap: 8px; font-size: 9.5pt; }
+  .special-meta-label { color: var(--muted); min-width: 56px; }
+  .special-meta-value { font-weight: 600; }
+
+  .special-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .special-photos img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 48px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 8pt;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     封面
+══════════════════════════════ -->
+<div class="cover no-break">
+  <div class="cover-label">宏全國際 台宏業務處 企劃室 · 出差報告</div>
+  <div class="cover-title">🇵🇦 EXPOCOMER<br><span>巴拿馬</span>國際貿易博覽會</div>
+  <div class="cover-subtitle">看展紀錄 &amp; 客戶拜訪報告</div>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">展期</span>
+      <span class="cover-meta-value">2025 Mar 10 – 12</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">地點</span>
+      <span class="cover-meta-value">巴拿馬城・巴拿馬</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">展館</span>
+      <span class="cover-meta-value">ATLAPA Convention Center</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">性質</span>
+      <span class="cover-meta-value">看展</span>
+    </div>
+  </div>
+
+  <div class="cover-team">
+    出差人員：<strong>陳敬峯 (Jeff)</strong>（業三部）&nbsp;·&nbsp; <strong>苗其瑋 (Wallace)</strong>（業三部）&nbsp;·&nbsp; <strong>徐喬奎 (Mark)</strong>（企劃室）
+  </div>
+
+  <div class="cover-banner">
+    <img src="images/expocomer_banner.png" alt="EXPOCOMER Banner">
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     Page 2 — 國家概況
+══════════════════════════════ -->
+<div class="page-break">
+  <h2>國家概況 — 巴拿馬</h2>
+
+  <div class="country-grid no-break">
+    <div class="country-cell"><div class="country-cell-label">首都</div><div class="country-cell-value">Panama City</div></div>
+    <div class="country-cell"><div class="country-cell-label">人口</div><div class="country-cell-value">約 440 萬</div></div>
+    <div class="country-cell"><div class="country-cell-label">語言</div><div class="country-cell-value">西班牙語</div></div>
+    <div class="country-cell"><div class="country-cell-label">貨幣</div><div class="country-cell-value">巴波亞 / 美元</div></div>
+    <div class="country-cell"><div class="country-cell-label">面積</div><div class="country-cell-value">75,417 km²</div></div>
+    <div class="country-cell"><div class="country-cell-label">時區</div><div class="country-cell-value">UTC−5</div></div>
+  </div>
+
+  <p>巴拿馬位於中美洲最南端，連結太平洋與大西洋的巴拿馬運河是全球貿易的關鍵樞紐，每年通過超過 14,000 艘船隻。以服務業為主的經濟體，美元為實際流通貨幣，金融、物流與自由貿易區高度發達；科隆自由貿易區（Colón Free Trade Zone）是全球第二大自由貿易區。對台灣企業而言，巴拿馬是進入拉丁美洲市場的重要門戶。</p>
+
+  <div class="highlight-tags">
+    <span class="highlight-tag">🚢 巴拿馬運河</span>
+    <span class="highlight-tag">🏦 科隆自由貿易區</span>
+    <span class="highlight-tag">💵 美元化經濟</span>
+    <span class="highlight-tag">🌎 中美洲門戶</span>
+  </div>
+
+  <h2>展會介紹</h2>
+
+  <p>EXPOCOMER 為巴拿馬大型綜合型展會，由貿易、旅遊、物流、電子與科技等多個展會組成，是中美洲最重要的國際貿易博覽會之一。每年吸引來自數十個國家的參展商與買家，展出內容涵蓋食品飲料、包裝材料、工業設備等多元產業。</p>
+
+  <p>透過此次展會，可以直接接觸到許多中南美洲的終端客戶。同時也遇到來自西班牙的品牌商，由於巴拿馬在貿易上具備轉口至美國的優勢，因此該品牌也正在尋找合適的包材供應商。此外，現場亦接觸到來自智利、巴西、墨西哥等國家的潛在客戶。</p>
+
+  <p>較為可惜的是，本次展會中創新包材的展示相對較少。相較之下，也更能看出我們的客戶 Bambito 在巴拿馬市場率先導入連結蓋（Tethered Cap）的前瞻性，可視為當地較具創新代表性的企業之一。</p>
+
+  <p>此外，透過此次展會交流以及實地拜訪客戶，也能明顯感受到語言在開發中南美洲市場的重要性。西班牙語在中南美洲大多數國家仍是主要商業與日常溝通語言，因此具備西班牙語溝通能力為開發中南美洲市場的必要條件之一。</p>
+</div>
+
+
+<!-- ══════════════════════════════
+     Page 3 — 展會照片
+══════════════════════════════ -->
+<div class="page-break">
+  <h2>展會照片</h2>
+
+  <div class="photo-grid">
+    <div>
+      <img src="images/expocomer_1.jpg" alt="展會入口看板合照">
+      <div class="photo-caption">展會入口看板合照</div>
+    </div>
+    <div>
+      <img src="images/expocomer_4.jpg" alt="展會報到現場">
+      <div class="photo-caption">展會報到現場</div>
+    </div>
+    <div>
+      <img src="images/expocomer_2.jpg" alt="Bambito 展位交流">
+      <div class="photo-caption">Bambito 展位交流</div>
+    </div>
+    <div>
+      <img src="images/expocomer_3.jpg" alt="食品展品架">
+      <div class="photo-caption">食品展品架</div>
+    </div>
+    <div>
+      <img src="images/expocomer_5.jpg" alt="瓶蓋產品交流">
+      <div class="photo-caption">瓶蓋產品交流</div>
+    </div>
+    <div>
+      <img src="images/expocomer_6.jpg" alt="Valle Fértil 展位">
+      <div class="photo-caption">Valle Fértil 展位</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     Page 4 — 客戶拜訪
+══════════════════════════════ -->
+<div class="page-break">
+  <h2>客戶拜訪紀錄 — Bambito</h2>
+
+  <p>此次巴拿馬出差的重要行程之一，是拜訪首個透過<strong>阿里巴巴平台</strong>成交的<strong>巴拿馬</strong>客戶，知名高端瓶裝水品牌。整體而言，巴拿馬瓶裝水市場呈現明顯的兩極化結構，在地天然水源品牌在高端市場具有較強的主導地位。</p>
+
+  <h3>巴拿馬瓶裝水市場品牌概況</h3>
+
+  <div class="brand-list no-break">
+    <div class="brand-card">
+      <div>
+        <div class="brand-name">Panama Blue</div>
+        <div class="brand-desc">巴拿馬最具代表性的頂級礦泉水品牌之一，水源來自 Cerro Azul 原始雨林，主打高品質天然泉水與設計感瓶身，主要通路為高端飯店與餐飲市場。</div>
+      </div>
+    </div>
+    <div class="brand-card key">
+      <div>
+        <div class="brand-name">Bambito <span class="brand-badge">重點客戶</span></div>
+        <div class="brand-desc">水源來自 Volcán Barú 火山腳下的高海拔地區，強調天然礦物質與清冽口感，在零售市場擁有高品牌忠誠度。本次拜訪的重點客戶即為此品牌。</div>
+      </div>
+    </div>
+    <div class="brand-card">
+      <div>
+        <div class="brand-name">Aquaçai</div>
+        <div class="brand-desc">主打 pH 值偏鹼性的天然泉水，定位於機能水與健康訴求市場。</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>集團背景</h3>
+  <p>隸屬 TRENCO 集團，集團旗下超過 25 家公司，主要事業為瓦斯與能源產業。目前產品除出口至美國華盛頓 DC 外，尚未拓展至其他歐美市場。</p>
+
+  <h3>產品類型</h3>
+  <div class="pill-list">
+    <span class="pill">Still（純水）</span>
+    <span class="pill">Sparkling（氣泡水）</span>
+  </div>
+
+  <h3>包裝規格</h3>
+  <div class="pkg-grid no-break">
+    <div class="pkg-card">
+      <div class="pkg-card-label">PET 瓶</div>
+      <div class="pkg-card-sub">零售與辦公室通路</div>
+      <div class="pkg-sizes">
+        <span class="pkg-size-tag">300ml / 600ml / 1.5L</span>
+        <span class="pkg-size-tag">1 加侖 / 5 加侖</span>
+      </div>
+    </div>
+    <div class="pkg-card">
+      <div class="pkg-card-label">玻璃瓶</div>
+      <div class="pkg-card-sub">高端餐飲與飯店</div>
+      <div class="pkg-sizes">
+        <span class="pkg-size-tag">330ml / 750ml</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="muted" style="font-size:9pt">♻️ Bambito 亦非常重視永續發展，是巴拿馬唯一建立自有回收體系的瓶裝水品牌，回收計畫自 2018 年推動，並在活動與展會中設置玻璃瓶回收站。</p>
+</div>
+
+
+<!-- ══════════════════════════════
+     Page 5 — 連結蓋 & 後續追蹤
+══════════════════════════════ -->
+<div class="page-break">
+  <h2>連結蓋（Tethered Cap）導入情況</h2>
+
+  <div class="tc-list no-break">
+    <div class="tc-item">客戶導入連結蓋主要是為了強化品牌的環保形象。Bambito 長期定位高端市場，因此對永續與環保議題相當重視。</div>
+    <div class="tc-item highlight">目前客戶共採購 2 個大櫃 + 1 個小櫃，約 600 萬個泰宏 1881 連結蓋。</div>
+    <div class="tc-item">現階段僅部分產品導入，若未來全面導入，需求量仍有成長空間。市場實際觀察顯示，目前連結蓋與一般瓶蓋並行存在。</div>
+  </div>
+
+  <h2>後續追蹤重點</h2>
+
+  <div class="follow-list no-break">
+    <div class="follow-item">此次接待我們的是 TRENCO 集團旗下負責進出口與採購的 Master Parts &amp; Service 公司總經理 Yoraima Caldera 及 Bambito 品牌總經理 Kenneth Kam。客戶對於我們親自拜訪表示相當重視，並願意推薦我們給其合作夥伴 Agua Cristalina 水廠。</div>
+    <div class="follow-item">除了目前合作的塑膠瓶蓋外，客戶部分產品仍使用塑環鋁蓋。在介紹純鋁蓋優勢後，客戶已同意提供樣品與圖面資料，後續將安排樣品測試，爭取鋁蓋導入機會。</div>
+  </div>
+
+  <h2>客戶拜訪照片</h2>
+
+  <div class="photo-grid no-break">
+    <div>
+      <img src="images/panama_cv_1.jpg" alt="Bambito 與其他品牌並列">
+      <div class="photo-caption">便利商店販售機 — Bambito 與其他品牌並列</div>
+    </div>
+    <div>
+      <img src="images/panama_cv_2.jpg" alt="TRENCO 集團倉庫外觀">
+      <div class="photo-caption">Bambito / TRENCO 集團倉庫外觀</div>
+    </div>
+    <div>
+      <img src="images/panama_cv_3.jpg" alt="Bambito 玻璃瓶回收站">
+      <div class="photo-caption">Bambito 玻璃瓶回收站（永續計畫）</div>
+    </div>
+    <div>
+      <img src="images/panama_cv_4.jpg" alt="Bambito 產品系列">
+      <div class="photo-caption">Bambito 產品系列 — PET 瓶與玻璃瓶展示</div>
+    </div>
+    <div>
+      <img src="images/panama_cv_5.jpg" alt="Bambito PET 瓶零售通路實拍">
+      <div class="photo-caption">Bambito PET 瓶 — 零售通路實拍（Gold Taste Awards）</div>
+    </div>
+    <div>
+      <img src="images/panama_cv_6.jpg" alt="與 Bambito 團隊合影">
+      <div class="photo-caption">與 Bambito 團隊合影（Yoraima 總經理）</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     Page 6 — 特色產品
+══════════════════════════════ -->
+<div class="page-break">
+  <h2>✨ 特色產品分享</h2>
+
+  <div class="special-box no-break">
+    <div class="special-meta">
+      <div class="special-meta-row">
+        <span class="special-meta-label">發現地點</span>
+        <span class="special-meta-value">洛杉磯加油站的便利商店</span>
+      </div>
+      <div class="special-meta-row">
+        <span class="special-meta-label">產品</span>
+        <span class="special-meta-value">可重複密封鋁罐，有別於一般常見的鋁罐設計</span>
+      </div>
+    </div>
+    <div class="special-photos">
+      <img src="images/panama_special_1.jpg" alt="特殊產品 1">
+      <img src="images/panama_special_2.jpg" alt="特殊產品 2">
+      <img src="images/panama_special_3.jpg" alt="特殊產品 3">
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>宏全國際 台宏業務處 · 企劃室</span>
+    <span>EXPOCOMER 巴拿馬國際貿易博覽會 2025</span>
+    <span>機密文件，請勿對外流傳</span>
+  </div>
+</div>
+
+</body>
+</html>
