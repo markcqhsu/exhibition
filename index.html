@@ -697,21 +697,38 @@
   }
   .cv-pkg-row {
     display: flex;
-    gap: 12px;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
   }
   .cv-pkg-label {
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text);
-    min-width: 130px;
-    flex-shrink: 0;
-    line-height: 1.5;
+    line-height: 1.4;
+  }
+  .cv-pkg-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 2px;
   }
   .cv-pkg-sizes {
-    font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cv-pkg-size-tag {
+    font-size: 0.78rem;
     color: var(--text-muted);
-    line-height: 1.6;
+    background: var(--surface);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    padding: 1px 7px;
+  }
+  :root.dark .cv-pkg-size-tag {
+    border-color: rgba(255,255,255,0.1);
   }
   .cv-note {
     font-size: 0.875rem;
@@ -916,10 +933,12 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    flex: 1;
+    align-items: center;
+    text-align: center;
   }
 
   .stat + .stat {
-    padding-left: 32px;
     border-left: 1px solid rgba(0,0,0,0.12);
   }
 
@@ -1163,7 +1182,13 @@
       <div class="description-text" id="modal-country-desc" style="margin-top:10px"></div>
       <div class="tag-list" id="modal-country-tags" style="margin-top:10px"></div>
       <div class="section-title" id="modal-desc-label">展覽簡介</div>
-      <div class="description-text" id="modal-desc"></div>
+      <div id="modal-banner-section" style="display:none; margin-bottom:14px">
+        <img id="modal-banner-img" src="" alt="展會 Banner" style="width:100%; border-radius:10px; display:block;">
+      </div>
+      <div class="description-text" id="modal-desc" style="white-space: pre-wrap"></div>
+      <div id="modal-photos-section" style="display:none">
+        <div class="cv-gallery" id="modal-photos-gallery"></div>
+      </div>
       <div class="section-title" id="modal-tags-label">重點客戶拜訪</div>
       <div class="tag-list" id="modal-tags"></div>
       <div id="modal-special-product-section" style="display:none">
@@ -1233,10 +1258,19 @@ const exhibitions = [
     venue: { zh: 'ATLAPA Convention Center', en: 'ATLAPA Convention Center' },
     booth: { zh: '—', en: '—' },
     desc: {
-      zh: 'EXPOCOMER 是中美洲最重要的國際貿易博覽會之一，每年吸引數十個國家的參展商與買家，涵蓋食品飲料、包裝材料、工業設備等多元產品類別。此次看展主要目的為瞭解飲料包裝市場最新趨勢，並蒐集競品資訊。',
+      zh: 'EXPOCOMER 為巴拿馬大型綜合型展會，由貿易、旅遊、物流、電子與科技等多個展會組成，是中美洲最重要的國際貿易博覽會之一。每年吸引來自數十個國家的參展商與買家，展出內容涵蓋食品飲料、包裝材料、工業設備等多元產業。\n\n透過此次展會，可以直接接觸到許多中南美洲的終端客戶。同時也遇到來自西班牙的品牌商，由於巴拿馬在貿易上具備轉口至美國的優勢，因此該品牌也正在尋找合適的包材供應商。此外，現場亦接觸到來自智利、巴西、墨西哥等國家的潛在客戶。\n\n較為可惜的是，本次展會中創新包材的展示相對較少。相較之下，也更能看出我們的客戶 Bambito 在巴拿馬市場率先導入連結蓋（Tethered Cap）的前瞻性，可視為當地較具創新代表性的企業之一。\n\n此外，透過此次展會交流以及實地拜訪客戶，也能明顯感受到語言在開發中南美洲市場的重要性。西班牙語在中南美洲大多數國家仍是主要商業與日常溝通語言，因此具備西班牙語溝通能力為開發中南美洲市場的必要條件之一。',
       en: 'EXPOCOMER is one of the most important international trade fairs in Central America, attracting exhibitors and buyers from dozens of countries, covering food & beverage, packaging, industrial equipment and more. The main purpose of this visit is to track the latest trends in beverage packaging and gather competitive intelligence.',
     },
     tags: [],
+    banner: 'images/expocomer_banner.png',
+    photos: [
+      'images/expocomer_1.jpg',
+      'images/expocomer_2.jpg',
+      'images/expocomer_3.jpg',
+      'images/expocomer_4.jpg',
+      'images/expocomer_5.jpg',
+      'images/expocomer_6.jpg',
+    ],
     customerVisits: {
       intro: '此次巴拿馬出差的重要行程之一，是拜訪首個透過 <strong style="color:var(--accent)">阿里巴巴平台</strong> 成交的 <strong style="color:var(--accent2)">巴拿馬</strong> 客戶，知名高端瓶裝水品牌。整體而言，巴拿馬瓶裝水市場呈現明顯的兩極化結構，在地天然水源品牌在高端市場具有較強的主導地位。',
       brands: [
@@ -1367,8 +1401,9 @@ function renderCustomerVisits(cv) {
   const d = cv.detail;
   const pkgRows = d.packaging.map(p => `
     <div class="cv-pkg-row">
-      <div class="cv-pkg-label">${p.label}<br><span style="font-weight:400;color:var(--text-muted)">${p.sub}</span></div>
-      <div class="cv-pkg-sizes">${p.sizes.join('<br>')}</div>
+      <div class="cv-pkg-label">${p.label}</div>
+      <div class="cv-pkg-sub">${p.sub}</div>
+      <div class="cv-pkg-sizes">${p.sizes.map(s => `<span class="cv-pkg-size-tag">${s}</span>`).join('')}</div>
     </div>`).join('');
 
   const tcParas = cv.tetheredCap.map(p =>
@@ -1522,7 +1557,25 @@ function openModal(id) {
     .map(h => `<span class="country-tag">${h}</span>`).join('');
 
   document.getElementById('modal-desc-label').textContent = t.descLabel;
+  const bannerSection = document.getElementById('modal-banner-section');
+  if (ex.banner) {
+    bannerSection.style.display = '';
+    document.getElementById('modal-banner-img').src = ex.banner;
+  } else {
+    bannerSection.style.display = 'none';
+  }
   document.getElementById('modal-desc').textContent = ex.desc[currentLang];
+  const photosSection = document.getElementById('modal-photos-section');
+  if (ex.photos && ex.photos.length) {
+    photosSection.style.display = '';
+    document.getElementById('modal-photos-gallery').innerHTML = ex.photos.map(src =>
+      `<div class="cv-gallery-item" onclick="this.classList.toggle('expanded')">
+        <img src="${src}" alt="展會照片">
+      </div>`
+    ).join('');
+  } else {
+    photosSection.style.display = 'none';
+  }
   document.getElementById('modal-tags-label').textContent = t.tagsLabel;
   const tagsEl = document.getElementById('modal-tags');
   if (ex.customerVisits) {
