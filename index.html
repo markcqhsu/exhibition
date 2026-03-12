@@ -813,6 +813,117 @@
   .cv-gallery-item.expanded .cv-caption { font-size: 0.85rem; }
 
   /* Special product section */
+  .market-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 8px 0 12px;
+  }
+  .market-info-item {
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .market-info-item-index {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .market-info-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .market-info-item-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .market-info-item-content {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .market-price-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 10px 0 4px;
+    line-height: 1.5;
+  }
+  .market-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.82rem;
+  }
+  .market-price-table th {
+    background: var(--accent);
+    color: #fff;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .market-price-table th:last-child,
+  .market-price-table td:last-child:not(.market-price-category) {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .market-price-category {
+    background: var(--surface2);
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding: 5px 8px;
+    letter-spacing: 0.04em;
+    text-align: left;
+  }
+  .market-price-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .market-price-original {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: block;
+  }
+  .market-price-spec {
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .market-price-usd {
+    font-weight: 600;
+    color: var(--upcoming);
+  }
+  .market-price-highlight td {
+    background: rgba(201, 134, 42, 0.08);
+    border-left: 3px solid var(--accent);
+  }
+  .market-price-highlight td:first-child {
+    padding-left: 6px;
+  }
+  .market-price-highlight span:first-child {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .market-info-item-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 10px;
+    white-space: pre-wrap;
+  }
   .special-product-meta {
     display: flex;
     flex-direction: column;
@@ -1191,6 +1302,10 @@
       </div>
       <div class="section-title" id="modal-tags-label">重點客戶拜訪</div>
       <div class="tag-list" id="modal-tags"></div>
+      <div id="modal-market-section" style="display:none">
+        <div class="section-title" id="modal-market-label">📊 市場資訊調查</div>
+        <div class="market-info-list" id="modal-market-list"></div>
+      </div>
       <div id="modal-special-product-section" style="display:none">
         <div class="section-title" id="modal-special-product-label">✨ 特色 / 特殊產品分享</div>
         <div class="special-product-meta" id="modal-special-product-meta"></div>
@@ -1225,6 +1340,7 @@ const i18n = {
     cpCapital: '首都', cpPop: '人口', cpLang: '語言', cpCurrency: '貨幣', cpArea: '面積', cpTz: '時區',
     specialProductLabel: '✨ 特色 / 特殊產品分享',
     spLocation: '發現地點', spProduct: '產品',
+    marketLabel: '📊 市場資訊調查',
   },
   en: {
     headerSub: 'Exhibition Hub',
@@ -1243,6 +1359,7 @@ const i18n = {
     cpCapital: 'Capital', cpPop: 'Population', cpLang: 'Language', cpCurrency: 'Currency', cpArea: 'Area', cpTz: 'Timezone',
     specialProductLabel: '✨ Featured / Special Product',
     spLocation: 'Found at', spProduct: 'Product',
+    marketLabel: '📊 Market Intelligence',
   },
 };
 
@@ -1294,7 +1411,7 @@ const exhibitions = [
       ],
       followUp: [
         '此次接待我們的是 TRENCO 集團旗下負責進出口與採購的 Master Parts & Service 公司總經理 Yoraima Caldera 及 Bambito 品牌總經理 Kenneth Kam。客戶對於我們親自拜訪表示相當重視，並願意推薦我們給其合作夥伴 Agua Cristalina 水廠。',
-        '除了目前合作的塑膠瓶蓋外，客戶部分產品仍使用塑環鋁蓋。在介紹純鋁蓋優勢後，客戶已同意提供樣品與圖面資料，後續將安排樣品測試，爭取鋁蓋導入機會。',
+        '除了目前合作的塑膠瓶蓋外，客戶部分產品仍使用塑環鋁蓋。在介紹純鋁蓋優勢後，客戶已同意提供樣品與圖面資料，後續將安排樣品測試，爭取鋁蓋導入機會。此次出差有先和客戶索取了四隻玻璃樣本（如附圖），藍色瓶蓋為氣泡款（充填 GV 約 3.5），綠蓋版本為一般款。',
       ],
       photos: [
         { src: 'images/panama_cv_1.jpg', caption: '便利商店販售機 — Bambito 與其他品牌並列' },
@@ -1303,6 +1420,7 @@ const exhibitions = [
         { src: 'images/panama_cv_4.jpg', caption: 'Bambito 產品系列 — PET 瓶與玻璃瓶展示' },
         { src: 'images/panama_cv_5.jpg', caption: 'Bambito PET 瓶 — 零售通路實拍（Gold Taste Awards）' },
         { src: 'images/panama_cv_6.jpg', caption: '與 Bambito 團隊合影（Yoraima 總經理）' },
+        { src: 'images/panama_cv_7.jpg', caption: 'Bambito 玻璃瓶樣本 — 藍蓋氣泡款（GV 約 3.5）/ 綠蓋一般款' },
       ],
     },
     team: [
@@ -1312,6 +1430,93 @@ const exhibitions = [
     ],
     mapUrl: 'https://maps.google.com/?q=ATLAPA+Convention+Center+Panama',
     webUrl: 'https://expocomer.com',
+    marketInfo: [
+      {
+        title: { zh: '可口可樂 × FIFA 世界盃 — 蓋內序號行銷活動', en: 'Coca-Cola × FIFA World Cup — Under-Cap Code Promotion' },
+        label: { zh: '發現地點', en: 'Location Found' },
+        content: { zh: '加油站的便利商店', en: 'Gas station convenience store' },
+        images: ['images/panama_market_1.jpg', 'images/panama_market_2.jpg'],
+        desc: {
+          zh: '市場上少見的飲料行銷活動：掃描標籤後輸入蓋內序號即可參加抽獎。這代表巴拿馬市場的消費者對 QR Code 的使用觀念趨於成熟，此模式很適合作為我司 QR Code 解決方案的實際案例，提供給客戶參考。\n\n後續將整理相關資料，針對巴拿馬市場客戶發送 EDM，同時也會在 QR Code 活動展示頁面上增加西語支持。',
+          en: 'A rare beverage marketing campaign in the local market: scan the label QR code and enter the cap serial number to enter a prize draw. This indicates strong QR Code literacy among Panamanian consumers — an ideal reference case for pitching our QR Code solutions to clients.\n\nFollow-up EDMs targeting Panama-market clients are planned, along with Spanish language support to be added to our QR Code demo page.',
+        },
+      },
+      {
+        title: { zh: '市售產品飲料價目表', en: 'Retail Beverage Price List' },
+        label: { zh: '發現地點', en: 'Location Found' },
+        content: { zh: '加油站的便利商店', en: 'Gas station convenience store' },
+        images: ['images/panama_market_6.jpg', 'images/panama_market_4.jpg', 'images/panama_market_5.jpg', 'images/panama_market_3.jpg'],
+        desc: {
+          zh: '在加油站便利商店拍攝到完整的飲料價目表，以下整理各類別售價供參考。值得注意的是 Malta Vigor（圖中黃蓋綠瓶）為當地知名的麥汁能量飲料，市場售價約 $0.40–$0.60 USD，在加油站便利商店售價為 $0.75 USD。',
+          en: 'A full beverage price list photographed at a gas station convenience store. Notable: Malta Vigor (yellow cap, green bottle) is a popular local malt-based energy drink priced around $0.40–$0.60 USD at market, sold here at $0.75 USD.',
+        },
+        priceTable: [
+          { category: '碳酸飲料', name: '可口可樂 鋁罐', original_name: 'Coca Cola Lata', spec: '354ml', price_usd: 1.00, highlight: true },
+          { category: '碳酸飲料', name: '可口可樂 寶特瓶', original_name: 'Coca Cola Pet', spec: '600ml', price_usd: 1.30, highlight: true },
+          { category: '碳酸飲料', name: '可口可樂 寶特瓶', original_name: 'Coca Cola', spec: '1.5L', price_usd: 2.60, highlight: true },
+          { category: '碳酸飲料', name: '可口可樂 寶特瓶', original_name: 'Coca Cola', spec: '2.25L', price_usd: 3.20, highlight: true },
+          { category: '碳酸飲料', name: '百事可樂 鋁罐', original_name: 'CNAL Pepsi Lata', spec: '355ml', price_usd: 0.95 },
+          { category: '碳酸飲料', name: '百事可樂 寶特瓶', original_name: 'Pepsi Pet', spec: '600ml', price_usd: 1.20 },
+          { category: '碳酸飲料', name: '七喜 寶特瓶', original_name: 'Sprite Pet', spec: '1L', price_usd: 1.75 },
+          { category: '碳酸飲料', name: '加拿大乾薑汁汽水 鋁罐', original_name: 'Canada Dry Ginger Ale', spec: '355ml', price_usd: 0.95 },
+          { category: '碳酸飲料', name: '加拿大乾薑汁汽水 寶特瓶', original_name: 'Canada Dry Ginger Ale Pet', spec: '600ml', price_usd: 1.20 },
+          { category: '碳酸飲料', name: '舒味思薑汁汽水 鋁罐', original_name: 'Schweppes Ginger Ale Lata', spec: '354ml', price_usd: 1.00 },
+          { category: '碳酸飲料', name: '舒味思薑汁汽水 寶特瓶', original_name: 'Schweppes Ginger Polar', spec: '1.5L', price_usd: 2.10 },
+          { category: '碳酸飲料', name: '芬達橘子汽水 鋁罐', original_name: 'Fanta Naranja Lata', spec: '354ml', price_usd: 1.00 },
+          { category: '碳酸飲料', name: 'Fresca 葡萄柚汽水 鋁罐', original_name: 'Fresca Lata', spec: '354ml', price_usd: 1.00 },
+          { category: '碳酸飲料', name: 'Fresca 葡萄柚汽水 寶特瓶', original_name: 'Fresca', spec: '600ml', price_usd: 1.30 },
+          { category: '碳酸飲料', name: 'Fresca 葡萄柚汽水 寶特瓶', original_name: 'Fresca', spec: '1.5L', price_usd: 2.10 },
+          { category: '碳酸飲料', name: 'Big Cola 寶特瓶', original_name: 'Big Cola Pet', spec: '360ml', price_usd: 0.65 },
+          { category: '碳酸飲料', name: 'Kist 橘子汽水 寶特瓶', original_name: 'Kist Soda Naranja', spec: '600ml', price_usd: 1.30 },
+          { category: '碳酸飲料', name: 'Malta Vigor 麥汁 寶特瓶', original_name: 'Malta vigor pet', spec: '355ml', price_usd: 0.75 },
+          { category: '果汁與果茶', name: '戴爾蒙蘋果花蜜', original_name: 'Delmonte Nectar Manz', spec: '200ml', price_usd: 0.65 },
+          { category: '果汁與果茶', name: '戴爾蒙蘋果花蜜', original_name: 'Delmonte Nectar Manz', spec: '未知容量', price_usd: 0.85 },
+          { category: '果汁與果茶', name: '戴爾蒙柑橘混合果汁', original_name: 'Del Monte Citrus Blend', spec: '500ml', price_usd: 1.00 },
+          { category: '果汁與果茶', name: 'Del Valle Kapo 蘋果汁', original_name: 'Del Valle Kapo Manzana', spec: '200ml', price_usd: 0.45 },
+          { category: '果汁與果茶', name: 'Del Valle 柑橘汁', original_name: 'Del Valle Fresh Citrus', spec: '400ml', price_usd: 0.80 },
+          { category: '果汁與果茶', name: 'Del Valle 柳橙汁', original_name: 'Del Valle Fresh Naran', spec: '250ml', price_usd: 0.60 },
+          { category: '果汁與果茶', name: 'La Chiricana 柳橙汁 寶特瓶', original_name: 'La Chiricana Jugo de Naranja Pet', spec: '未知容量', price_usd: 1.60 },
+          { category: '果汁與果茶', name: 'Raspafresh 蜂蜜檸檬汁', original_name: 'Raspafresh Jugo Limon con Miel', spec: '未知容量', price_usd: 1.95 },
+          { category: '果汁與果茶', name: 'Raspafresh 蜂蜜柳橙汁', original_name: 'Raspafresh Jugo Naranja con Miel', spec: '未知容量', price_usd: 2.15 },
+          { category: '果汁與果茶', name: 'V8 綜合水果汁', original_name: 'V8 Splash Fruit Medley', spec: '473ml', price_usd: 1.90 },
+          { category: '果汁與果茶', name: "Welch's 葡萄汁", original_name: 'WL Welchs Uva', spec: '296ml', price_usd: 1.45 },
+          { category: '果汁與果茶', name: 'Super Detox 胡蘿蔔汁', original_name: 'Super Detox Carrot Sun', spec: '16oz', price_usd: 3.15 },
+          { category: '果汁與果茶', name: '立頓檸檬冰茶', original_name: 'Lipton Te Frio Limon', spec: '500ml', price_usd: 1.00 },
+          { category: '果汁與果茶', name: '戴爾蒙水蜜桃冰茶', original_name: 'Del Monte Te Frio Melocoton', spec: '未知容量', price_usd: 1.00 },
+          { category: '果汁與果茶', name: '戴爾蒙檸檬冰茶 利樂包', original_name: 'Del Monte Limon Ice Tea tetra', spec: '未知容量', price_usd: 0.85 },
+          { category: '果汁與果茶', name: 'Fuze 水蜜桃冰茶', original_name: 'Fuze Te Frio Melocoton', spec: '500ml', price_usd: 1.25 },
+          { category: '果汁與果茶', name: 'Hic 檸檬茶', original_name: 'Hic Te Limon', spec: '330ml', price_usd: 0.85 },
+          { category: '果汁與果茶', name: 'Coco Express 椰子水', original_name: 'Coco Express', spec: '16oz', price_usd: 2.30 },
+          { category: '果汁與果茶', name: '含果肉椰子水', original_name: 'Agua de coco con Pulpa', spec: '310ml', price_usd: 1.40 },
+          { category: '運動與能量飲料', name: '魔爪能量飲 綠色', original_name: 'Monster Energy verde', spec: '16oz', price_usd: 2.75 },
+          { category: '運動與能量飲料', name: '紅牛能量飲', original_name: 'Red Bull', spec: '250ml', price_usd: 2.39 },
+          { category: '運動與能量飲料', name: '紅牛能量飲', original_name: 'Red Bull', spec: '355ml', price_usd: 2.99 },
+          { category: '運動與能量飲料', name: 'Raptor 能量飲 鋁罐', original_name: 'Raptor Energizante Lata', spec: '473ml', price_usd: 1.35 },
+          { category: '運動與能量飲料', name: 'Raptor 能量飲 寶特瓶', original_name: 'Raptor Pet', spec: '600ml', price_usd: 1.35 },
+          { category: '運動與能量飲料', name: 'Sobe Adrenaline 能量飲', original_name: 'Sobe Adrenaline', spec: '473ml', price_usd: 2.15 },
+          { category: '運動與能量飲料', name: 'Sobe Adrenaline 能量飲', original_name: 'SB Sobe Adrenaline Rush', spec: '296ml', price_usd: 1.85 },
+          { category: '運動與能量飲料', name: '佳得樂 檸檬', original_name: 'Gatorade Lemon', spec: '600ml', price_usd: 1.20 },
+          { category: '運動與能量飲料', name: 'Gatorlyte 冰川凍結口味', original_name: 'Gatorlyte Glacier Freeze', spec: '591ml', price_usd: 2.25 },
+          { category: '運動與能量飲料', name: 'Powerade 綜合水果', original_name: 'Powerade Hydro Frutas', spec: '1L', price_usd: 1.20 },
+          { category: '運動與能量飲料', name: 'Electrolit 草莓', original_name: 'Electrolit Fresa', spec: '625ml', price_usd: 3.10 },
+          { category: '運動與能量飲料', name: 'Suerox 草莓奇異果', original_name: 'Suerox Fresa Kiwi', spec: '630ml', price_usd: 3.10 },
+          { category: '水與氣泡水', name: 'Super 7 飲用水', original_name: 'Super 7 Agua Botella', spec: '600ml', price_usd: 0.70 },
+          { category: '水與氣泡水', name: 'Super 7 飲用水', original_name: 'Super 7 Agua Botella', spec: '1.5L', price_usd: 1.50 },
+          { category: '水與氣泡水', name: 'Dasani 飲用水', original_name: 'Dasani Agua', spec: '600ml', price_usd: 0.90 },
+          { category: '水與氣泡水', name: 'Dasani 飲用水', original_name: 'Dasani Agua', spec: '1L', price_usd: 1.40 },
+          { category: '水與氣泡水', name: '冰島泉水 寶特瓶', original_name: 'Icelandic Agua de Manantial Pet', spec: '未知容量', price_usd: 1.65 },
+          { category: '水與氣泡水', name: '冰島泉水 寶特瓶 (大)', original_name: 'Icelandic Agua de Manantial Pet', spec: '未知容量', price_usd: 2.65 },
+          { category: '水與氣泡水', name: '冰島風味氣泡水', original_name: 'Icelandic Agua Saborizada', spec: '未知容量', price_usd: 1.55 },
+          { category: '水與氣泡水', name: '沛綠雅氣泡水', original_name: 'Perrier Agua', spec: '330ml', price_usd: 1.75 },
+          { category: '水與氣泡水', name: '沛綠雅 Maison 檸檬氣泡水', original_name: 'Perrier Maison Magnet Lemon', spec: '未知容量', price_usd: 1.55 },
+          { category: '水與氣泡水', name: '聖沛黎洛 橘子氣泡水', original_name: 'San Peregrino Aranciata', spec: '330ml', price_usd: 1.65 },
+          { category: '水與氣泡水', name: 'Salutaris 檸檬氣泡水 鋁罐', original_name: 'Salutaris Limon Lata', spec: '未知容量', price_usd: 0.80 },
+          { category: '水與氣泡水', name: 'Bubly 萊姆氣泡水', original_name: 'Bubly Lime', spec: '355ml', price_usd: 0.85 },
+          { category: '其他', name: 'Nevada 燕麥飲', original_name: 'Nevada Avena', spec: '236ml', price_usd: 0.80 },
+          { category: '其他', name: 'Nevada 香草牛奶', original_name: 'RN Nevada Leche TP Vainilla', spec: '未知容量', price_usd: 0.70 },
+        ],
+      },
+    ],
     specialProduct: {
       location: { zh: '洛杉磯加油站的便利商店', en: 'Gas station convenience store in Los Angeles' },
       product: { zh: '可重複密封鋁罐，有別於一般常見的鋁罐設計', en: 'Resealable aluminum can — a unique twist on the standard can design' },
@@ -1386,6 +1591,34 @@ function setLang(lang) {
   });
   applyLang();
   renderCards();
+}
+
+function renderMarketPriceTable(data, lang) {
+  const catLabel = lang === 'zh'
+    ? { '碳酸飲料':'碳酸飲料', '果汁與果茶':'果汁與果茶', '運動與能量飲料':'運動與能量飲料', '水與氣泡水':'水與氣泡水', '其他':'其他' }
+    : { '碳酸飲料':'Carbonated Drinks', '果汁與果茶':'Juice & Tea', '運動與能量飲料':'Sports & Energy', '水與氣泡水':'Water & Sparkling', '其他':'Others' };
+  const thName  = lang === 'zh' ? '產品' : 'Product';
+  const thSpec  = lang === 'zh' ? '規格' : 'Size';
+  const thPrice = lang === 'zh' ? '售價 (USD)' : 'Price (USD)';
+  const cats = [...new Set(data.map(d => d.category))];
+  const rows = cats.map(cat => {
+    const items = data.filter(d => d.category === cat);
+    const itemRows = items.map(d => `
+      <tr${d.highlight ? ' class="market-price-highlight"' : ''}>
+        <td><span>${d.name}</span><span class="market-price-original">${d.original_name}</span></td>
+        <td class="market-price-spec">${d.spec}</td>
+        <td class="market-price-usd">$${d.price_usd.toFixed(2)}</td>
+      </tr>`).join('');
+    return `<tr><td colspan="3" class="market-price-category">${catLabel[cat] || cat}</td></tr>${itemRows}`;
+  }).join('');
+  const note = lang === 'zh'
+    ? '* 同產品不同口味但同價格者，僅列示一種口味作為代表。'
+    : '* For products with multiple flavors at the same price, only one flavor is listed as representative.';
+  return `<p class="market-price-note">${note}</p>
+  <table class="market-price-table">
+    <thead><tr><th>${thName}</th><th>${thSpec}</th><th>${thPrice}</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
 }
 
 function renderCustomerVisits(cv) {
@@ -1604,6 +1837,25 @@ function openModal(id) {
   document.getElementById('modal-map-btn').onclick = () => window.open(ex.mapUrl, '_blank');
   document.getElementById('modal-web-btn').textContent = t.webBtn;
   document.getElementById('modal-web-btn').onclick = () => window.open(ex.webUrl, '_blank');
+  // Market info section
+  const marketSection = document.getElementById('modal-market-section');
+  if (ex.marketInfo && ex.marketInfo.length > 0) {
+    marketSection.style.display = '';
+    document.getElementById('modal-market-label').textContent = t.marketLabel;
+    const marketPrefix = currentLang === 'zh' ? '市場資訊' : 'Market Info';
+    document.getElementById('modal-market-list').innerHTML = ex.marketInfo.map((item, idx) => `
+      <div class="market-info-item">
+        <div class="market-info-item-index">${marketPrefix} ${idx + 1}</div>
+        ${item.title ? `<div class="market-info-item-title">${item.title[currentLang]}</div>` : ''}
+        <div class="market-info-item-label">${item.label[currentLang]}</div>
+        <div class="market-info-item-content">${item.content[currentLang]}</div>
+        ${item.images && item.images.length ? `<div class="cv-gallery" style="margin-top:10px">${item.images.map(src => `<div class="cv-gallery-item" onclick="this.classList.toggle('expanded')"><img src="${src}" alt="市場資訊圖片"></div>`).join('')}</div>` : ''}
+        ${item.desc ? `<div class="market-info-item-desc">${item.desc[currentLang]}</div>` : ''}
+        ${item.priceTable ? renderMarketPriceTable(item.priceTable, currentLang) : ''}
+      </div>`).join('');
+  } else {
+    marketSection.style.display = 'none';
+  }
   // Special product section
   const spSection = document.getElementById('modal-special-product-section');
   if (ex.specialProduct) {
