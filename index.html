@@ -1530,8 +1530,8 @@ const exhibitions = [
       area: '75,417 km²',
       timezone: 'UTC−5',
       desc: {
-        zh: '巴拿馬位於中美洲最南端，連結太平洋與大西洋的巴拿馬運河是全球貿易的關鍵樞紐，每年通過超過 14,000 艘船隻。以服務業為主的經濟體，美元為實際流通貨幣，金融、物流與自由貿易區高度發達；科隆自由貿易區（Colón Free Trade Zone）是全球第二大自由貿易區。對台灣企業而言，巴拿馬是進入拉丁美洲市場的重要門戶。',
-        en: 'Panama, at the southern tip of Central America, is home to the Panama Canal — a critical artery of global trade connecting the Pacific and Atlantic Oceans, with over 14,000 vessels transiting annually. Its service-based, dollarized economy features a world-class financial sector, logistics hub, and the Colón Free Trade Zone — the world\'s second largest. For Taiwanese companies, Panama serves as a key gateway to Latin America.',
+        zh: '巴拿馬位於中美洲最南端，連結太平洋與大西洋的巴拿馬運河是全球貿易的關鍵樞紐，每年通過超過 14,000 艘船隻。<br><br>以服務業為主的經濟體（服務業占 GDP 約 79%），美元為實際流通貨幣，金融、物流與自由貿易區高度發達；科隆自由貿易區（Colón Free Trade Zone）是全球第二大自由貿易區。<br><br>2024 年人均 GDP（名目）約 $16,037 美元，2025 年預估將達 $19,802 美元；以購買力平價（PPP）計算，2024 年人均 GDP 達 $36,426 美元，為拉丁美洲人均所得最高的國家之一。<br><br>對台灣企業而言，巴拿馬是進入拉丁美洲市場的重要門戶。',
+        en: 'Panama, at the southern tip of Central America, is home to the Panama Canal — a critical artery of global trade connecting the Pacific and Atlantic Oceans, with over 14,000 vessels transiting annually.<br><br>Its service-dominated economy (services account for ~79% of GDP) features a world-class financial sector, logistics hub, and the Colón Free Trade Zone — the world\'s second largest.<br><br>Nominal GDP per capita reached $16,037 in 2024 and is projected to rise to $19,802 in 2025; on a PPP basis, GDP per capita hit $36,426 in 2024, making Panama one of the highest in Latin America.<br><br>For Taiwanese companies, Panama serves as a key gateway to Latin America.',
       },
       highlights: {
         zh: ['🚢 巴拿馬運河', '🏦 科隆自由貿易區', '💵 美元化經濟', '🌎 中美洲門戶'],
@@ -1785,7 +1785,7 @@ function openModal(id) {
       <div class="info-box-label">${label}</div>
       <div class="info-box-value">${val}</div>
     </div>`).join('');
-  document.getElementById('modal-country-desc').textContent = c.desc[currentLang];
+  document.getElementById('modal-country-desc').innerHTML = c.desc[currentLang];
   document.getElementById('modal-country-tags').innerHTML = c.highlights[currentLang]
     .map(h => `<span class="country-tag">${h}</span>`).join('');
 
