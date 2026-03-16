@@ -937,6 +937,20 @@
   .sp-meta-row { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
   .sp-meta-label { font-size: 0.9rem; color: var(--text-muted); white-space: nowrap; min-width: 56px; }
   .sp-meta-value { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; }
+  .sp-note {
+    margin-top: 8px;
+    padding: 10px 13px;
+    background: var(--tag-bg, #f0f4ff);
+    border-left: 3px solid var(--accent, #4f7cff);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  .sp-note-title { font-weight: 600; margin-bottom: 4px; font-size: 0.88rem; }
+  .sp-note ol { margin: 4px 0 6px 18px; padding: 0; }
+  .sp-note li { margin-bottom: 2px; }
+  .sp-note-pro { margin-top: 4px; }
   .special-product-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1302,14 +1316,14 @@
       </div>
       <div class="section-title" id="modal-tags-label">重點客戶拜訪</div>
       <div class="tag-list" id="modal-tags"></div>
-      <div id="modal-market-section" style="display:none">
-        <div class="section-title" id="modal-market-label">📊 市場資訊調查</div>
-        <div class="market-info-list" id="modal-market-list"></div>
-      </div>
       <div id="modal-special-product-section" style="display:none">
         <div class="section-title" id="modal-special-product-label">✨ 特色 / 特殊產品分享</div>
         <div class="special-product-meta" id="modal-special-product-meta"></div>
         <div class="special-product-gallery" id="modal-special-product-gallery"></div>
+      </div>
+      <div id="modal-market-section" style="display:none">
+        <div class="section-title" id="modal-market-label">📊 市場資訊調查</div>
+        <div class="market-info-list" id="modal-market-list"></div>
       </div>
       <div class="section-title" id="modal-team-label">出差人員</div>
       <div class="attendee-list" id="modal-team"></div>
@@ -1520,7 +1534,29 @@ const exhibitions = [
     specialProduct: {
       location: { zh: '洛杉磯加油站的便利商店', en: 'Gas station convenience store in Los Angeles' },
       product: { zh: '可重複密封鋁罐，有別於一般常見的鋁罐設計', en: 'Resealable aluminum can — a unique twist on the standard can design' },
-      images: ['images/panama_special_1.jpg', 'images/panama_special_2.jpg', 'images/panama_special_3.jpg'],
+      images: ['images/panama_special_1.jpg', 'images/panama_special_2.jpg', 'images/panama_special_3.jpg', 'images/panama_special_4.jpg'],
+      note: {
+        zh: {
+          title: '補充說明：內墊材質為 EVA（乙烯-醋酸乙烯共聚物）',
+          limits: [
+            '耐溫較低，無法用於 &gt;75°C 的製程',
+            '保氣性較差，無法用於含氣內容物',
+            '內容物酒精度 &gt;20% 不建議使用',
+            'EVA 本身帶有醋酸的酸味，需特別挑選使用的牌號',
+          ],
+          pro: '優點：價格便宜',
+        },
+        en: {
+          title: 'Note: Inner liner material is EVA (Ethylene-Vinyl Acetate)',
+          limits: [
+            'Low heat resistance — not suitable for processes exceeding 75°C',
+            'Poor gas retention — not suitable for carbonated contents',
+            'Not recommended for contents with alcohol content &gt;20%',
+            'EVA carries a slight acetic acid odor — grade selection is critical',
+          ],
+          pro: 'Advantage: Cost-effective',
+        },
+      },
     },
     country: {
       capital: 'Panama City',
@@ -1862,9 +1898,17 @@ function openModal(id) {
     spSection.style.display = '';
     document.getElementById('modal-special-product-label').textContent = t.specialProductLabel;
     const sp = ex.specialProduct;
+    const spNote = sp.note ? sp.note[currentLang] : null;
+    const spNoteHtml = spNote ? `
+      <div class="sp-note">
+        <div class="sp-note-title">${spNote.title}</div>
+        <ol>${spNote.limits.map(l => `<li>${l}</li>`).join('')}</ol>
+        <div class="sp-note-pro">${spNote.pro}</div>
+      </div>` : '';
     document.getElementById('modal-special-product-meta').innerHTML = `
       <div class="sp-meta-row"><span class="sp-meta-label">${t.spLocation}</span><span class="sp-meta-value">${sp.location[currentLang]}</span></div>
       <div class="sp-meta-row"><span class="sp-meta-label">${t.spProduct}</span><span class="sp-meta-value">${sp.product[currentLang]}</span></div>
+      ${spNoteHtml}
     `;
     document.getElementById('modal-special-product-gallery').innerHTML = sp.images
       .map(src => `<img class="sp-img" src="${src}" alt="特殊產品圖片" onclick="this.classList.toggle('expanded')">`).join('');
